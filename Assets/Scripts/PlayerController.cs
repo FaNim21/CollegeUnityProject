@@ -1,9 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 namespace Main
 {
+    public enum Mode
+    {
+        Normal,
+        Building,
+    }
+
     public class PlayerController : MonoBehaviour
     {
         private Rigidbody2D _rb;
@@ -12,8 +17,9 @@ namespace Main
         [Header("Values")]
         public float speed;
 
-        [Header("Values")]
-        public Vector2 movement;
+        [Header("Debug")]
+        [SerializeField, ReadOnly] private Mode _mode;
+        [SerializeField, ReadOnly] private Vector2 _movement;
 
 
         private void Start()
@@ -29,12 +35,12 @@ namespace Main
 
         private void FixedUpdate()
         {
-            _rb.MovePosition(_rb.position + movement * speed * Time.fixedDeltaTime);
+            _rb.MovePosition(_rb.position + speed * Time.fixedDeltaTime * _movement);
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            movement = context.ReadValue<Vector2>();
+            _movement = context.ReadValue<Vector2>();
         }
     }
 }

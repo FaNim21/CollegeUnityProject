@@ -1,3 +1,4 @@
+using Main.Visual;
 using UnityEngine;
 
 namespace Main
@@ -6,9 +7,10 @@ namespace Main
     {
         public static GameManager instance;
 
-        //public List<d>
+        public Popup popup;
 
-        private void Start()
+
+        private void Awake()
         {
             if (instance == null)
             {
@@ -18,6 +20,8 @@ namespace Main
             {
                 Destroy(gameObject);
             }
+
+            Popup.InitializePooling();
         }
     }
 }
