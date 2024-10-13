@@ -7,6 +7,7 @@ namespace Main
     {
         public static GameManager instance;
 
+        public PlayerController playerController;
         public Popup popup;
 
 
@@ -22,6 +23,11 @@ namespace Main
             }
 
             Popup.InitializePooling();
+        }
+
+        public Transform GetPlayer()
+        {
+            return playerController.transform;
         }
     }
 }
