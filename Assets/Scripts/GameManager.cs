@@ -7,6 +7,8 @@ namespace Main
     {
         public static GameManager instance;
 
+        public MapManager mapManager;
+
         public PlayerController playerController;
         public Popup popup;
 
@@ -23,6 +25,8 @@ namespace Main
             }
 
             Popup.InitializePooling();
+
+            mapManager = GetComponent<MapManager>();
         }
 
         public Transform GetPlayer()
