@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Structure : MonoBehaviour
+public abstract class Structure : MonoBehaviour
 {
     private float health;
 
@@ -8,4 +8,6 @@ public class Structure : MonoBehaviour
     {
 
     }
+
+    public abstract void OnCollect();
 }

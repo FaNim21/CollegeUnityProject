@@ -1,5 +1,6 @@
 using Main.Visual;
 using UnityEngine;
+using Main.Player;
 
 namespace Main
 {

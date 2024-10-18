@@ -1,21 +1,27 @@
 using Main;
+using Main.Player;
 using System.Collections;
 using UnityEngine;
 
 public class MiningDrill : Structure
 {
-    private MapManager mapManager;
+    private PlayerController _player;
+    private MapManager _mapManager;
 
     [Header("Components")]
     [SerializeField] private Transform _progressBar;
     [SerializeField] private Transform _healthBar;
 
     [Header("Values")]
+    [SerializeField] private float _maxStock;
     [SerializeField] private float _mineTime;
-    public int amount;
+    [SerializeField] private float _fuelPerMine;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private OreType _ore;
+    [SerializeField, ReadOnly] private int amount;
+    [SerializeField, ReadOnly] private int _fuelAmount;
+    [SerializeField, ReadOnly] private bool _canMine;
     [SerializeField, ReadOnly] private bool _isMining;
     [SerializeField, ReadOnly] private float _timer;
 
@@ -26,7 +32,7 @@ public class MiningDrill : Structure
     }
     private void Start()
     {
-        mapManager = GameManager.instance.mapManager;
+        _mapManager = GameManager.instance.mapManager;
         StartCoroutine(PlaceDrill());
     }
 
@@ -37,7 +43,7 @@ public class MiningDrill : Structure
 
     private void Mine()
     {
-        if (!_isMining) return;
+        if (!_canMine || !_isMining || amount == _maxStock) return;
 
         _timer += Time.deltaTime;
         UpdateProgressBar();
@@ -51,10 +57,11 @@ public class MiningDrill : Structure
 
     public IEnumerator PlaceDrill()
     {
-        _ore = mapManager.GetOreOnTile(transform.position);
+        _ore = _mapManager.GetOreOnTile(transform.position);
         if (_ore == OreType.None) yield break;
         yield return new WaitForSeconds(1f);
         _isMining = true;
+        _canMine = true;
     }
 
     private void UpdateProgressBar()
@@ -62,5 +69,10 @@ public class MiningDrill : Structure
         Vector3 barScale = _progressBar.localScale;
         barScale.x = _timer / _mineTime;
         _progressBar.localScale = barScale;
+    }
+
+    public override void OnCollect()
+    {
+
     }
 }

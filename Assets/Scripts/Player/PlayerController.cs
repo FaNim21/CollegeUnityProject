@@ -1,7 +1,10 @@
+﻿using Main.Misc;
+using Main.UI;
+using Main.UI.Equipment;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Main
+namespace Main.Player
 {
     public enum Mode
     {
@@ -13,6 +16,10 @@ namespace Main
     {
         private Rigidbody2D _rb;
         private SpriteRenderer _spriteRenderer;
+
+        [Header("Components")]
+        public CanvasHandle canvasHandle;
+        public Inventory inventory;
 
         [Header("Values")]
         public float speed;
@@ -30,7 +37,15 @@ namespace Main
 
         private void Update()
         {
+            HandleInputs();
+        }
 
+        private void HandleInputs()
+        {
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                inventory.inventoryObject.SetActive(!inventory.inventoryObject.activeSelf);
+            }
         }
 
         private void FixedUpdate()
