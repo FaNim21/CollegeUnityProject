@@ -2,6 +2,7 @@ using Main.Datas;
 using Main.Player;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Main.UI.Equipment
 {
@@ -31,6 +32,9 @@ namespace Main.UI.Equipment
         public PlayerController player;
         public DragAndDrop dragAndDrop;
 
+        [Header("Components")]
+        public Slider destructionProgressSlider;
+
         [Header("Objects")]
         public GameObject inventoryObject;
 
@@ -47,7 +51,6 @@ namespace Main.UI.Equipment
         {
             dragAndDrop.Initialize();
         }
-
 
         public bool DropItem(SlotData slotData)
         {

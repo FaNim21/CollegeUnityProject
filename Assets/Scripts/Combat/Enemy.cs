@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Main.Combar
+namespace Main.Combat
 {
     public class Enemy : MonoBehaviour
     {

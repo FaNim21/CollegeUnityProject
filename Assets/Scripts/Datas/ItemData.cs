@@ -2,13 +2,23 @@ using UnityEngine;
 
 namespace Main.Datas
 {
+    public enum ItemType
+    {
+        Material,
+        Fuel,
+    }
+
     [CreateAssetMenu(fileName = "New Equipment Item", menuName = "Inventory/Item")]
     public class ItemData : ScriptableObject
     {
         public int ID;
         public new string name;
-        [TextArea(4, 4)] public string description;
+        public ItemType type;
+        [TextArea(2, 4)] public string description;
         public Sprite icon;
         public int maxStackSize;
+
+        [Header("Fuel")]
+        public float fuelPower;
     }
 }

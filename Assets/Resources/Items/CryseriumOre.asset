@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1
   name: Cryserium Ore
+  type: 1
   description: Ore
   icon: {fileID: 8033092973025764044, guid: df6544d5d59201042acc700b8ee4ce8c, type: 3}
   maxStackSize: 100
+  fuelPower: 5

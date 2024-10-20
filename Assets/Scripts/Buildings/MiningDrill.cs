@@ -1,6 +1,7 @@
 using Main;
 using Main.Player;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class MiningDrill : Structure
@@ -9,6 +10,9 @@ public class MiningDrill : Structure
     private MapManager _mapManager;
 
     [Header("Components")]
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private TextMeshProUGUI _fuelAmountText;
+    [SerializeField] private Transform _fuelUseBar;
     [SerializeField] private Transform _progressBar;
     [SerializeField] private Transform _healthBar;
 
@@ -28,10 +32,13 @@ public class MiningDrill : Structure
 
     private void Awake()
     {
-        UpdateProgressBar();
+        UpdateBar(_progressBar, 0);
+        _fuelAmountText.SetText("0");
+        UpdateBar(_fuelUseBar, 0);
     }
     private void Start()
     {
+        _canvas.worldCamera = Camera.main;
         _mapManager = GameManager.instance.mapManager;
         StartCoroutine(PlaceDrill());
     }
@@ -46,7 +53,7 @@ public class MiningDrill : Structure
         if (!_canMine || !_isMining || amount == _maxStock) return;
 
         _timer += Time.deltaTime;
-        UpdateProgressBar();
+        UpdateBar(_progressBar, _timer / _mineTime);
 
         if (_timer >= _mineTime)
         {
@@ -64,14 +71,12 @@ public class MiningDrill : Structure
         _canMine = true;
     }
 
-    private void UpdateProgressBar()
+    public override void OnCollect()
     {
-        Vector3 barScale = _progressBar.localScale;
-        barScale.x = _timer / _mineTime;
-        _progressBar.localScale = barScale;
+
     }
 
-    public override void OnCollect()
+    public override void OpenGUI()
     {
 
     }
