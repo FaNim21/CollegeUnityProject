@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Main.Player;
-using Main.Misc;
-using System.Linq;
 
 namespace Main.UI
 {
@@ -28,25 +26,6 @@ namespace Main.UI
         [ReadOnly] public bool isDragging;
 
 
-        private void Start()
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                var child = transform.GetChild(i);
-                if (child.TryGetComponent<IWindowControl>(out var window))
-                {
-                    _windowControls.Add(window); 
-                }
-
-                for (int j = 0; j < child.childCount; j++)
-                {
-                    if (child.GetChild(j).TryGetComponent<IWindowControl>(out var window2))
-                    {
-                        _windowControls.Add(window2);
-                    }
-                }
-            }
-        }
         private void Update()
         {
             isPointerOverGameObject = EventSystem.current.IsPointerOverGameObject();

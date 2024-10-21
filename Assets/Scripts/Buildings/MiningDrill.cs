@@ -1,5 +1,7 @@
 using Main;
 using Main.Player;
+using Main.UI.Equipment.SidePanels;
+using Main.Visual;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -40,6 +42,7 @@ public class MiningDrill : Structure
     {
         _canvas.worldCamera = Camera.main;
         _mapManager = GameManager.instance.mapManager;
+        _player = GameManager.instance.playerController;
         StartCoroutine(PlaceDrill());
     }
 
@@ -73,11 +76,12 @@ public class MiningDrill : Structure
 
     public override void OnCollect()
     {
-
+        Popup.Create(transform.position, "Zebrano ?????", Color.black);
     }
 
     public override void OpenGUI()
     {
-
+        _player.inventory.OpenWindow();
+        _player.inventory.OpenSidePanel<MiningDrillPanel>();
     }
 }

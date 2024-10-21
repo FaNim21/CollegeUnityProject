@@ -23,7 +23,6 @@ namespace Main.UI.Equipment
 
     public class Inventory : MonoBehaviour, IWindowControl
     {
-        public CanvasHandle UIHandle => _canvasHandle;
         public bool IsActive => inventoryObject.activeSelf;
 
 
@@ -37,6 +36,9 @@ namespace Main.UI.Equipment
 
         [Header("Objects")]
         public GameObject inventoryObject;
+        public Transform sidePanelParent;
+        private List<ISideInventory> _sideInventories = new();
+        private bool _isSidePanelOpen;
 
         [Header("Slots")]
         public List<InventorySlot> slots = new();
@@ -44,8 +46,17 @@ namespace Main.UI.Equipment
 
         private void Awake()
         {
-            UIHandle.AddWindowToControl(this);
-            UIHandle.AddWindowToEscapeControl(this);
+            _canvasHandle.AddWindowToControl(this);
+            _canvasHandle.AddWindowToEscapeControl(this);
+
+            for (int i = 0; i < sidePanelParent.childCount; i++)
+            {
+                var child = sidePanelParent.GetChild(i);
+                if (child.TryGetComponent<ISideInventory>(out var panel))
+                {
+                    _sideInventories.Add(panel);
+                }
+            }
         }
         private void Start()
         {
@@ -134,10 +145,34 @@ namespace Main.UI.Equipment
             return false;
         }
 
+        public void OpenSidePanel<T>()
+        {
+            for (int i = 0; i < _sideInventories.Count; i++)
+            {
+                var current = _sideInventories[i];
+                if (current is T && !current.IsActive)
+                {
+                    _isSidePanelOpen = false;
+                    current.ToggleWindow();
+                    return;
+                }
+            }
+        }
+
+        public void OpenWindow()
+        {
+            inventoryObject.SetActive(true);
+        }
         public void ToggleWindow()
         {
             if(!IsActive) player.canvasHandle.CloseUIWindow(false);
             inventoryObject.SetActive(!IsActive);
+
+            if (_isSidePanelOpen)
+            {
+                //TODO: 0 zamykac boczny panel
+                _isSidePanelOpen = false;
+            }
         }
     }
 }

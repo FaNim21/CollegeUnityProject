@@ -1,6 +1,6 @@
 ﻿namespace Main.UI.Equipment
 {
-    public interface ISideInventory
+    public interface ISideInventory : IWindowControl
     {
     }
 }
