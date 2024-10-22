@@ -1,5 +1,7 @@
 using Main.Datas;
+using Main.Misc;
 using Main.Player;
+using Main.UI.Equipment.SidePanels;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,8 +25,7 @@ namespace Main.UI.Equipment
 
     public class Inventory : MonoBehaviour, IWindowControl
     {
-        public CanvasHandle UIHandle => _canvasHandle;
-        public bool IsActive => inventoryObject.activeSelf;
+        public bool IsActive => background.activeSelf;
 
 
         [Header("References")]
@@ -36,16 +37,30 @@ namespace Main.UI.Equipment
         public Slider destructionProgressSlider;
 
         [Header("Objects")]
-        public GameObject inventoryObject;
+        public GameObject background;
+        public Transform sidePanelParent;
+        private List<ISideInventory> _sideInventories = new();
 
         [Header("Slots")]
         public List<InventorySlot> slots = new();
 
+        [Header("Debug")]
+        [SerializeField, ReadOnly] private ISideInventory _openedSideInventory;
+
 
         private void Awake()
         {
-            UIHandle.AddWindowToControl(this);
-            UIHandle.AddWindowToEscapeControl(this);
+            _canvasHandle.AddWindowToControl(this);
+            _canvasHandle.AddWindowToEscapeControl(this);
+
+            for (int i = 0; i < sidePanelParent.childCount; i++)
+            {
+                var child = sidePanelParent.GetChild(i);
+                if (child.TryGetComponent<ISideInventory>(out var panel))
+                {
+                    _sideInventories.Add(panel);
+                }
+            }
         }
         private void Start()
         {
@@ -134,10 +149,54 @@ namespace Main.UI.Equipment
             return false;
         }
 
+        public void OpenSidePanel<T>()
+        {
+            for (int i = 0; i < _sideInventories.Count; i++)
+            {
+                var current = _sideInventories[i];
+                if (current is T && !current.IsActive)
+                {
+                    current.OpenWindow();
+                    if (_openedSideInventory != null)
+                    {
+                        _openedSideInventory.CloseWindow();
+                    }
+                    _openedSideInventory = current;
+                    return;
+                }
+            }
+        }
+
+        public void OpenInventory()
+        {
+            OpenSidePanel<CraftingWindow>();
+            OpenWindow();
+        }
+        public void OpenWindow()
+        {
+            Utils.Log("Otwiera inventory");
+            background.SetActive(true);
+        }
         public void ToggleWindow()
         {
-            if(!IsActive) player.canvasHandle.CloseUIWindow(false);
-            inventoryObject.SetActive(!IsActive);
+            if (!IsActive)
+            {
+                player.canvasHandle.CloseUIWindow(false);
+                OpenInventory();
+                return;
+            }
+            CloseWindow();
+        }
+        public void CloseWindow()
+        {
+            Utils.Log("zamyka inventory");
+            background.SetActive(false);
+
+            if (_openedSideInventory != null)
+            {
+                _openedSideInventory.CloseWindow();
+                _openedSideInventory = null;
+            }
         }
     }
 }

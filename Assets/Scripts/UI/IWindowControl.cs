@@ -3,9 +3,16 @@ namespace Main.UI
 {
     public interface IWindowControl
     {
-        CanvasHandle UIHandle { get; }
         bool IsActive { get; }
 
-        void ToggleWindow();
+        void OpenWindow();
+        void ToggleWindow()
+        {
+            if (!IsActive)
+                OpenWindow();
+            else 
+                CloseWindow();
+        }
+        void CloseWindow();
     }
 }

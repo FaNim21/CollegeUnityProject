@@ -42,10 +42,7 @@ namespace Main.Player
 
         private void HandleInputs()
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
-            {
-                inventory.inventoryObject.SetActive(!inventory.inventoryObject.activeSelf);
-            }
+
         }
 
         private void FixedUpdate()
