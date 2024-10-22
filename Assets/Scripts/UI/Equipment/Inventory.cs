@@ -1,5 +1,7 @@
 using Main.Datas;
+using Main.Misc;
 using Main.Player;
+using Main.UI.Equipment.SidePanels;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +25,7 @@ namespace Main.UI.Equipment
 
     public class Inventory : MonoBehaviour, IWindowControl
     {
-        public bool IsActive => inventoryObject.activeSelf;
+        public bool IsActive => background.activeSelf;
 
 
         [Header("References")]
@@ -35,13 +37,15 @@ namespace Main.UI.Equipment
         public Slider destructionProgressSlider;
 
         [Header("Objects")]
-        public GameObject inventoryObject;
+        public GameObject background;
         public Transform sidePanelParent;
         private List<ISideInventory> _sideInventories = new();
-        private bool _isSidePanelOpen;
 
         [Header("Slots")]
         public List<InventorySlot> slots = new();
+
+        [Header("Debug")]
+        [SerializeField, ReadOnly] private ISideInventory _openedSideInventory;
 
 
         private void Awake()
@@ -152,26 +156,46 @@ namespace Main.UI.Equipment
                 var current = _sideInventories[i];
                 if (current is T && !current.IsActive)
                 {
-                    _isSidePanelOpen = false;
-                    current.ToggleWindow();
+                    current.OpenWindow();
+                    if (_openedSideInventory != null)
+                    {
+                        _openedSideInventory.CloseWindow();
+                    }
+                    _openedSideInventory = current;
                     return;
                 }
             }
         }
 
+        public void OpenInventory()
+        {
+            OpenSidePanel<CraftingWindow>();
+            OpenWindow();
+        }
         public void OpenWindow()
         {
-            inventoryObject.SetActive(true);
+            Utils.Log("Otwiera inventory");
+            background.SetActive(true);
         }
         public void ToggleWindow()
         {
-            if(!IsActive) player.canvasHandle.CloseUIWindow(false);
-            inventoryObject.SetActive(!IsActive);
-
-            if (_isSidePanelOpen)
+            if (!IsActive)
             {
-                //TODO: 0 zamykac boczny panel
-                _isSidePanelOpen = false;
+                player.canvasHandle.CloseUIWindow(false);
+                OpenInventory();
+                return;
+            }
+            CloseWindow();
+        }
+        public void CloseWindow()
+        {
+            Utils.Log("zamyka inventory");
+            background.SetActive(false);
+
+            if (_openedSideInventory != null)
+            {
+                _openedSideInventory.CloseWindow();
+                _openedSideInventory = null;
             }
         }
     }

@@ -15,9 +15,14 @@ namespace Main.UI.Equipment.SidePanels
             _canvasHandle.AddWindowToControl(this);
         }
 
-        public void ToggleWindow()
+
+        public void OpenWindow()
         {
-            gameObject.SetActive(!IsActive);
+            gameObject.SetActive(true);
+        }
+        public void CloseWindow()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

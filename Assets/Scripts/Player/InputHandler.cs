@@ -29,8 +29,9 @@ namespace Assets.Scripts.Player
 
         public void OnInventory(InputAction.CallbackContext callback)
         {
-            if (callback.phase != InputActionPhase.Performed) return;
+            if (callback.phase != InputActionPhase.Started) return;
 
+            Utils.Log("Przelaczam inventory");
             _canvasHandle.ToggleWindow<Inventory>();
         }
 

@@ -6,12 +6,17 @@ namespace Main.UI.Equipment.SidePanels
     {
         public bool IsActive => gameObject.activeSelf;
 
+
         //[Header("Components")]
 
 
-        public void ToggleWindow()
+        public void OpenWindow()
         {
-            gameObject.SetActive(!IsActive);
+            gameObject.SetActive(true);
+        }
+        public void CloseWindow()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

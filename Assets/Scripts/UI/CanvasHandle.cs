@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Main.Player;
+using Main.Misc;
 
 namespace Main.UI
 {
@@ -55,12 +56,40 @@ namespace Main.UI
             //if (forceMainMenu) ToggleWindow<MainMenu>();
         }
 
+        public void OpenWindow<T>()
+        {
+            for (int i = 0; i < _windowControls.Count; i++)
+            {
+                var current = _windowControls[i];
+                if (current is T && !current.IsActive)
+                {
+                    current.OpenWindow();
+                    return;
+                }
+            }
+        }
         public void ToggleWindow<T>() where T : IWindowControl
         {
             for (int i = 0; i < _windowControls.Count; i++)
             {
                 var current = _windowControls[i];
-                if (current is T) current.ToggleWindow();
+                if (current is T)
+                {
+                    current.ToggleWindow();
+                    return;
+                }
+            }
+        }
+        public void CloseWindow<T>()
+        {
+            for (int i = 0; i < _windowControls.Count; i++)
+            {
+                var current = _windowControls[i];
+                if (current is T && current.IsActive)
+                {
+                    current.CloseWindow();
+                    return;
+                }
             }
         }
     }

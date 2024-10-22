@@ -5,6 +5,14 @@ namespace Main.UI
     {
         bool IsActive { get; }
 
-        void ToggleWindow();
+        void OpenWindow();
+        void ToggleWindow()
+        {
+            if (!IsActive)
+                OpenWindow();
+            else 
+                CloseWindow();
+        }
+        void CloseWindow();
     }
 }
