@@ -1,5 +1,4 @@
-﻿using Main.Misc;
-using Main.UI;
+﻿using Main.UI;
 using Main.UI.Equipment;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,11 +35,6 @@ namespace Main.Player
         }
 
         private void Update()
-        {
-            HandleInputs();
-        }
-
-        private void HandleInputs()
         {
 
         }

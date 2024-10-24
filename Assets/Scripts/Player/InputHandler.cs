@@ -31,7 +31,6 @@ namespace Assets.Scripts.Player
         {
             if (callback.phase != InputActionPhase.Started) return;
 
-            Utils.Log("Przelaczam inventory");
             _canvasHandle.ToggleWindow<Inventory>();
         }
 

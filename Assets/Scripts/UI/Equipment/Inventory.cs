@@ -1,7 +1,6 @@
 using Main.Datas;
 using Main.Misc;
 using Main.Player;
-using Main.UI.Equipment.SidePanels;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -149,14 +148,16 @@ namespace Main.UI.Equipment
             return false;
         }
 
-        public void OpenSidePanel<T>()
+        public void OpenSidePanel<T>(Structure structure)
         {
             for (int i = 0; i < _sideInventories.Count; i++)
             {
                 var current = _sideInventories[i];
-                if (current is T && !current.IsActive)
+                //TODO: 0 zrobic zeby mozna bylo otwierac inne struktury, ale tego samego typu
+                //if (_openedSideInventory != null && _openedSideInventory is not T) return;
+                if (current is T)
                 {
-                    current.OpenWindow();
+                    current.OpenWindow(structure);
                     if (_openedSideInventory != null)
                     {
                         _openedSideInventory.CloseWindow();
@@ -169,12 +170,12 @@ namespace Main.UI.Equipment
 
         public void OpenInventory()
         {
-            OpenSidePanel<CraftingWindow>();
+            //TODO: 0 Crafting powinien byc jako jedno z inventory
+            //OpenSidePanel<CraftingWindow>(null);
             OpenWindow();
         }
         public void OpenWindow()
         {
-            Utils.Log("Otwiera inventory");
             background.SetActive(true);
         }
         public void ToggleWindow()
@@ -189,7 +190,6 @@ namespace Main.UI.Equipment
         }
         public void CloseWindow()
         {
-            Utils.Log("zamyka inventory");
             background.SetActive(false);
 
             if (_openedSideInventory != null)

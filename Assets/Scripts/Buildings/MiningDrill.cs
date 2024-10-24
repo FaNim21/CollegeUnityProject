@@ -1,5 +1,6 @@
 using Main;
 using Main.Player;
+using Main.UI.Equipment;
 using Main.UI.Equipment.SidePanels;
 using Main.Visual;
 using System.Collections;
@@ -24,6 +25,8 @@ public class MiningDrill : Structure
     [SerializeField] private float _fuelPerMine;
 
     [Header("Debug")]
+    [SerializeField, ReadOnly] private SlotData _fuelData;
+    [SerializeField, ReadOnly] private SlotData _outputData;
     [SerializeField, ReadOnly] private OreType _ore;
     [SerializeField, ReadOnly] private int amount;
     [SerializeField, ReadOnly] private int _fuelAmount;
@@ -43,7 +46,7 @@ public class MiningDrill : Structure
         _canvas.worldCamera = Camera.main;
         _mapManager = GameManager.instance.mapManager;
         _player = GameManager.instance.playerController;
-        StartCoroutine(PlaceDrill());
+        StartCoroutine(PlaceDrill()); //TEMP
     }
 
     private void Update()
@@ -65,6 +68,11 @@ public class MiningDrill : Structure
         }
     }
 
+    private void UpdateSlots()
+    {
+
+    }
+
     public IEnumerator PlaceDrill()
     {
         _ore = _mapManager.GetOreOnTile(transform.position);
@@ -82,6 +90,6 @@ public class MiningDrill : Structure
     public override void OpenGUI()
     {
         _player.inventory.OpenWindow();
-        _player.inventory.OpenSidePanel<MiningDrillPanel>();
+        _player.inventory.OpenSidePanel<MiningDrillPanel>(this);
     }
 }

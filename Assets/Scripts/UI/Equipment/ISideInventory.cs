@@ -1,6 +1,8 @@
 ﻿namespace Main.UI.Equipment
 {
-    public interface ISideInventory : IWindowControl
+    public interface ISideInventory
     {
+        void OpenWindow(Structure structure);
+        void CloseWindow();
     }
 }

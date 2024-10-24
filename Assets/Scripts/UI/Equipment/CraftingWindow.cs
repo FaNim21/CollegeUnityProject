@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Main.UI.Equipment.SidePanels
+namespace Main.UI.Equipment
 {
-    public class CraftingWindow : MonoBehaviour, ISideInventory
+    public class CraftingWindow : MonoBehaviour, IWindowControl
     {
         public bool IsActive => gameObject.activeSelf;
 
