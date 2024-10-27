@@ -1,6 +1,7 @@
 using Main.Visual;
 using UnityEngine;
 using Main.Player;
+using Main.Combat;
 
 namespace Main
 {
@@ -12,6 +13,7 @@ namespace Main
 
         public PlayerController playerController;
         public Popup popup;
+        public Projectile projectile;
 
 
         private void Awake()
@@ -26,8 +28,6 @@ namespace Main
             }
 
             Popup.InitializePooling();
-
-            mapManager = GetComponent<MapManager>();
         }
 
         public Transform GetPlayer()

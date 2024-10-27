@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class Structure : MonoBehaviour, IDamageable
 {
-    private float health;
-    private bool died;
+    [SerializeField, ReadOnly] private float health;
+    [SerializeField, ReadOnly] private bool died;
 
     public void TakeDamage(int damage)
     {
@@ -19,10 +19,10 @@ public abstract class Structure : MonoBehaviour, IDamageable
         }
     }
 
-    protected void UpdateBar(Transform bar, float proprtion)
+    protected void UpdateBar(Transform bar, float proportion)
     {
         Vector3 barScale = bar.localScale;
-        barScale.x = proprtion;
+        barScale.x = proportion;
         bar.localScale = barScale;
     }
 

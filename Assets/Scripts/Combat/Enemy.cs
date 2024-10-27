@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Main.Combat
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : Entity
     {
         private Rigidbody2D _rb;
 

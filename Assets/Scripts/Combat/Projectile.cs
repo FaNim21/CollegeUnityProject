@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace Main.Combat
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Projectile : MonoBehaviour
     {
-        
-    }
+        public Rigidbody2D rb;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public int damage;
+        public float speed;
+
+        private Vector2 velocity;
+
+        public void Setup(int layerMask, Vector2 velocity, float speed, int damage)
+        {
+            gameObject.layer = layerMask;
+            gameObject.transform.GetChild(0).gameObject.layer = layerMask;
+
+            this.velocity = velocity;
+            this.speed = speed;
+            this.damage = damage;
+
+            Destroy(gameObject, 3f);
+        }
+
+        private void FixedUpdate()
+        {
+            rb.MovePosition(rb.position + speed * Time.deltaTime * velocity);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.transform.parent.TryGetComponent<IDamageable>(out var entity))
+            {
+                entity.TakeDamage(damage);
+                //Object pooling is useless in this games
+                Destroy(gameObject);
+            }
+        }
     }
 }

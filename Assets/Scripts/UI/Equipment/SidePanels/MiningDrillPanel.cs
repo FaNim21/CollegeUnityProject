@@ -14,11 +14,26 @@ namespace Main.UI.Equipment.SidePanels
         [SerializeField] private Slider _fuelProgressSlider;
 
 
+        private void Update()
+        {
+            UpdateDrillInformations();
+        }
+
+        private void UpdateDrillInformations()
+        {
+            _mineProgressSlider.value = _drill.MineProgress;
+            _fuelProgressSlider.value = _drill.FuelProgress;
+        }
+
         private void LoadData(MiningDrill drill)
         {
             _drill = drill;
 
-            //_fuelSlot.AddItem(null);
+            var fuel = _drill.GetFuel();
+            if (fuel != null)
+            {
+                _fuelSlot.AddItem(fuel);
+            }
         }
 
         private void Clear()
@@ -36,11 +51,6 @@ namespace Main.UI.Equipment.SidePanels
         {
             gameObject.SetActive(false);
             Clear();
-        }
-
-        public void OpenWindow()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

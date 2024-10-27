@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
+  - Player
+  - Mob
   - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerProjectile
+  - MobProjetile
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Environment
+    uniqueID: 2506708297
+    locked: 0
+  - name: UI
+    uniqueID: 829945445
     locked: 0

@@ -25,14 +25,17 @@ public class MiningDrill : Structure
     [SerializeField] private float _fuelPerMine;
 
     [Header("Debug")]
-    [SerializeField, ReadOnly] private SlotData _fuelData;
-    [SerializeField, ReadOnly] private SlotData _outputData;
+    [SerializeField] private SlotData _fuelData;
+    [SerializeField] private SlotData _outputData;
     [SerializeField, ReadOnly] private OreType _ore;
     [SerializeField, ReadOnly] private int amount;
     [SerializeField, ReadOnly] private int _fuelAmount;
     [SerializeField, ReadOnly] private bool _canMine;
     [SerializeField, ReadOnly] private bool _isMining;
     [SerializeField, ReadOnly] private float _timer;
+
+    public float MineProgress => _timer / _mineTime;
+    public float FuelProgress => 0;
 
 
     private void Awake()
@@ -59,18 +62,13 @@ public class MiningDrill : Structure
         if (!_canMine || !_isMining || amount == _maxStock) return;
 
         _timer += Time.deltaTime;
-        UpdateBar(_progressBar, _timer / _mineTime);
+        UpdateBar(_progressBar, MineProgress);
 
         if (_timer >= _mineTime)
         {
             _timer = 0;
             amount++;
         }
-    }
-
-    private void UpdateSlots()
-    {
-
     }
 
     public IEnumerator PlaceDrill()
@@ -82,14 +80,17 @@ public class MiningDrill : Structure
         _canMine = true;
     }
 
+    public SlotData GetFuel()
+    {
+        return _fuelData;
+    }
+
     public override void OnCollect()
     {
         Popup.Create(transform.position, "Zebrano ?????", Color.black);
     }
-
     public override void OpenGUI()
     {
-        _player.inventory.OpenWindow();
         _player.inventory.OpenSidePanel<MiningDrillPanel>(this);
     }
 }

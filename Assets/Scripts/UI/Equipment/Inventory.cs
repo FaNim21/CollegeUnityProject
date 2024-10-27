@@ -1,5 +1,4 @@
 using Main.Datas;
-using Main.Misc;
 using Main.Player;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +18,11 @@ namespace Main.UI.Equipment
             this.itemData = itemData;
             this.quantity = quantity;
             this.slotIndex = slotIndex;
+        }
+
+        public bool IsEmpty()
+        {
+            return itemData == null;
         }
     }
 
@@ -157,6 +161,7 @@ namespace Main.UI.Equipment
                 //if (_openedSideInventory != null && _openedSideInventory is not T) return;
                 if (current is T)
                 {
+                    OpenWindow();
                     current.OpenWindow(structure);
                     if (_openedSideInventory != null)
                     {
