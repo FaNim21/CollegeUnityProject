@@ -1,20 +1,37 @@
 using Main.Combat;
+using Main.Datas;
 using UnityEngine;
 
 public abstract class Structure : MonoBehaviour, IDamageable
 {
-    [SerializeField, ReadOnly] private float health;
-    [SerializeField, ReadOnly] private bool died;
+    public StructureData data;
+
+    [Header("Structure Components")]
+    [SerializeField] private Transform _healthBar;
+
+    [Header("Structure Debug")]
+    [SerializeField, ReadOnly] private float _health;
+    [SerializeField, ReadOnly] private bool _died;
+
+    private int _maxHealth;
+
+
+    protected virtual void Awake()
+    {
+        _maxHealth = data.maxHealth;
+        _health = _maxHealth;
+    }
 
     public void TakeDamage(int damage)
     {
-        if (damage <= 0 || died) return;
+        if (damage <= 0 || _died) return;
 
-        health -= damage;
+        _health -= damage;
+        UpdateBar(_healthBar, _health / _maxHealth);
 
-        if (health < 0)
+        if (_health < 0)
         {
-            died = true;
+            _died = true;
             OnDeath();
         }
     }

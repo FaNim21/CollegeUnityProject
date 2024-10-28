@@ -17,16 +17,15 @@ public class MiningDrill : Structure
     [SerializeField] private TextMeshProUGUI _fuelAmountText;
     [SerializeField] private Transform _fuelUseBar;
     [SerializeField] private Transform _progressBar;
-    [SerializeField] private Transform _healthBar;
 
     [Header("Values")]
     [SerializeField] private float _maxStock;
     [SerializeField] private float _mineTime;
     [SerializeField] private float _fuelPerMine;
-
-    [Header("Debug")]
     [SerializeField] private SlotData _fuelData;
     [SerializeField] private SlotData _outputData;
+
+    [Header("Debug")]
     [SerializeField, ReadOnly] private OreType _ore;
     [SerializeField, ReadOnly] private int amount;
     [SerializeField, ReadOnly] private int _fuelAmount;
@@ -38,8 +37,10 @@ public class MiningDrill : Structure
     public float FuelProgress => 0;
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         UpdateBar(_progressBar, 0);
         _fuelAmountText.SetText("0");
         UpdateBar(_fuelUseBar, 0);
