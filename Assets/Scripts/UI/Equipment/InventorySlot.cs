@@ -57,7 +57,7 @@ namespace Main.UI.Equipment
             }
             if (Keyboard.current.leftShiftKey.isPressed) return;
 
-            /*if (eventData.button == PointerEventData.InputButton.Right && Keyboard.current.leftCtrlKey.isPressed)
+            if (eventData.button == PointerEventData.InputButton.Right && Keyboard.current.leftCtrlKey.isPressed)
             {
                 TakeHalfItems();
                 return;
@@ -66,7 +66,7 @@ namespace Main.UI.Equipment
             {
                 TakeOneItem();
                 return;
-            }*/
+            }
 
             if (ItemData == null && _inventory.dragAndDrop.gameObject.activeSelf) return;
             StartDragAndDrop(_data.itemData, _data.quantity);

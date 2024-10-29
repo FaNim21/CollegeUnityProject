@@ -79,15 +79,16 @@ namespace Main.UI.Equipment
             {
                 if (eventData.button == PointerEventData.InputButton.Left)
                     DropOnSlot(slot);
+                //TODO: 0 zrobic upuszczanie pojedynczo itemy i polowe trzymanego stacka 
             }
             else if (slot.ItemData == _data.itemData)
             {
                 if (eventData.button == PointerEventData.InputButton.Left)
                     FillSlot(slot);
-                /*else if (eventData.button == PointerEventData.InputButton.Right && Keyboard.current.leftCtrlKey.isPressed)
+                else if (eventData.button == PointerEventData.InputButton.Right && Keyboard.current.leftCtrlKey.isPressed)
                     TakeHalfItems(slot);
                 else if (eventData.button == PointerEventData.InputButton.Right)
-                    TakeOneItem(slot);*/
+                    TakeOneItem(slot);
             }
             else
             {
