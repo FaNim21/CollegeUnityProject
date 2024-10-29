@@ -44,13 +44,14 @@ namespace Main.UI.Equipment.SidePanels
 
         public void OpenWindow(Structure structure)
         {
+            Clear();
+
             LoadData((MiningDrill)structure);
             gameObject.SetActive(true);
         }
         public void CloseWindow()
         {
             gameObject.SetActive(false);
-            Clear();
         }
     }
 }

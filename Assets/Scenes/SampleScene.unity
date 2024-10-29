@@ -3606,6 +3606,7 @@ MonoBehaviour:
   dragAndDrop: {fileID: 1897296611}
   destructionProgressSlider: {fileID: 245036609}
   background: {fileID: 2022329685}
+  craftingBackground: {fileID: 1979175344}
   sidePanelParent: {fileID: 1366269925}
   slots: []
 --- !u!1 &1366269924

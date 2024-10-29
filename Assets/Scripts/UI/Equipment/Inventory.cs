@@ -41,6 +41,7 @@ namespace Main.UI.Equipment
 
         [Header("Objects")]
         public GameObject background;
+        public GameObject craftingBackground;
         public Transform sidePanelParent;
         private List<ISideInventory> _sideInventories = new();
 
@@ -154,6 +155,7 @@ namespace Main.UI.Equipment
 
         public void OpenSidePanel<T>(Structure structure)
         {
+            craftingBackground.SetActive(false);
             for (int i = 0; i < _sideInventories.Count; i++)
             {
                 var current = _sideInventories[i];
@@ -175,8 +177,7 @@ namespace Main.UI.Equipment
 
         public void OpenInventory()
         {
-            //TODO: 0 Crafting powinien byc jako jedno z inventory
-            //OpenSidePanel<CraftingWindow>(null);
+            craftingBackground.SetActive(true);
             OpenWindow();
         }
         public void OpenWindow()
@@ -196,6 +197,7 @@ namespace Main.UI.Equipment
         public void CloseWindow()
         {
             background.SetActive(false);
+            craftingBackground.SetActive(false);
 
             if (_openedSideInventory != null)
             {

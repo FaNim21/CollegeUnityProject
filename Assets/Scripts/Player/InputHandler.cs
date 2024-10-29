@@ -37,7 +37,7 @@ namespace Assets.Scripts.Player
         public void OnLeftClick(InputAction.CallbackContext callback)
         {
             if (callback.phase != InputActionPhase.Performed) return;
-            if (_player.canvasHandle.isPointerOverGameObject) return;
+            if (_canvasHandle.isPointerOverGameObject) return;
 
             var structure = GetStructureOnMouse();
             if (structure == null) return;
