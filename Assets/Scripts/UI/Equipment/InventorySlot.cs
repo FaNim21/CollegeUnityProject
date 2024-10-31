@@ -1,4 +1,5 @@
 using Main.Datas;
+using Main.Misc;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,7 @@ namespace Main.UI.Equipment
     public class InventorySlot : Slot
     {
         private Inventory _inventory;
+        private Structure _structure;
 
         [Header("Values")]
         public int index;
@@ -35,11 +37,15 @@ namespace Main.UI.Equipment
         }
 
 
-        protected override void Start()
+        protected override void Start() 
         {
             _inventory = GameManager.instance.playerController.inventory;
 
             UpdateSlot();
+        }
+        public void SetStructure(Structure structure)
+        {
+            _structure = structure;
         }
 
         public override void OnDrag(PointerEventData eventData)
@@ -130,6 +136,11 @@ namespace Main.UI.Equipment
         public void AddItem(SlotData newData)
         {
             _data = newData;
+            if (_structure != null)
+            {
+                //TODO: 0 trzeba zrobic wykrywanie, ktora baze na slocie czyscie wiec moze jednak zrobie structure slot?
+                //_structure.
+            }
             UpdateSlot();
         }
 
@@ -195,6 +206,7 @@ namespace Main.UI.Equipment
         {
             if (_data.itemData == null) return;
 
+            Utils.Log($"Clear {_data.itemData.name}");
             _data = null;
             _data = new SlotData();
 
@@ -205,6 +217,7 @@ namespace Main.UI.Equipment
         {
             if (_data.itemData == null) return;
 
+            Utils.Log($"Deep clear {_data.itemData.name}");
             _data.itemData = null;
             _data.quantity = 0;
 

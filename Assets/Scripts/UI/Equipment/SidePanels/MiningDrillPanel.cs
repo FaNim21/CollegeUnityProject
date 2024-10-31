@@ -14,6 +14,9 @@ namespace Main.UI.Equipment.SidePanels
         [SerializeField] private Slider _fuelProgressSlider;
 
 
+        private void Start()
+        {
+        }
         private void Update()
         {
             UpdateDrillInformations();
@@ -28,6 +31,8 @@ namespace Main.UI.Equipment.SidePanels
         private void LoadData(MiningDrill drill)
         {
             _drill = drill;
+            _fuelSlot.SetStructure(_drill);
+            _outputSlot.SetStructure(_drill);
 
             var fuel = _drill.GetFuel();
             if (fuel != null)
@@ -40,6 +45,7 @@ namespace Main.UI.Equipment.SidePanels
         {
             _mineProgressSlider.value = 0;
             _fuelProgressSlider.value = 1;
+            _drill = null;
         }
 
         public void OpenWindow(Structure structure)
