@@ -4,6 +4,7 @@ namespace Main.Datas
 {
     public enum ItemType
     {
+        None,
         Material,
         Fuel,
     }

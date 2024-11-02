@@ -46,6 +46,7 @@ namespace Main.UI.Equipment
         private List<ISideInventory> _sideInventories = new();
 
         [Header("Slots")]
+        public int slotCount;
         public List<InventorySlot> slots = new();
 
         [Header("Debug")]
@@ -64,6 +65,13 @@ namespace Main.UI.Equipment
                 {
                     _sideInventories.Add(panel);
                 }
+            }
+
+            for (int i = 0; i < slotCount; i++)
+            {
+                var slot = Instantiate(GameManager.instance.inventorySlot, background.transform);
+                slot.index = i;
+                slots.Add(slot);
             }
         }
         private void Start()

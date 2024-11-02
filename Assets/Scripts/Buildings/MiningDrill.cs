@@ -19,11 +19,11 @@ public class MiningDrill : Structure
     [SerializeField] private Transform _progressBar;
 
     [Header("Values")]
+    public SlotHandler fuelHandler;
+    public SlotHandler outputHandler;
     [SerializeField] private float _maxStock;
     [SerializeField] private float _mineTime;
     [SerializeField] private float _fuelPerMine;
-    [SerializeField] private SlotData _fuelData;
-    [SerializeField] private SlotData _outputData;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private OreType _ore;
@@ -83,7 +83,7 @@ public class MiningDrill : Structure
 
     public SlotData GetFuel()
     {
-        return _fuelData;
+        return fuelHandler.data;
     }
 
     public override void OnCollect()

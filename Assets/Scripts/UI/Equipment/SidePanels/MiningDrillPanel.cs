@@ -31,8 +31,8 @@ namespace Main.UI.Equipment.SidePanels
         private void LoadData(MiningDrill drill)
         {
             _drill = drill;
-            _fuelSlot.SetStructure(_drill);
-            _outputSlot.SetStructure(_drill);
+            _fuelSlot.SetSlotHandler(_drill.fuelHandler);
+            _outputSlot.SetSlotHandler(_drill.outputHandler);
 
             var fuel = _drill.GetFuel();
             if (fuel != null)

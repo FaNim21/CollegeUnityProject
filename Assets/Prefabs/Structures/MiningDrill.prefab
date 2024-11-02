@@ -85,17 +85,25 @@ MonoBehaviour:
   _fuelAmountText: {fileID: 9172866426746666286}
   _fuelUseBar: {fileID: 1454422339784414653}
   _progressBar: {fileID: 3460962125470948693}
+  fuelHandler:
+    type: 0
+    itemType: 2
+    itemData: {fileID: 0}
+    data:
+      itemData: {fileID: 0}
+      quantity: 0
+      slotIndex: 0
+  outputHandler:
+    type: 2
+    itemType: 0
+    itemData: {fileID: 0}
+    data:
+      itemData: {fileID: 0}
+      quantity: 0
+      slotIndex: 0
   _maxStock: 5
   _mineTime: 4
   _fuelPerMine: 0.1
-  _fuelData:
-    itemData: {fileID: 0}
-    quantity: 0
-    slotIndex: 0
-  _outputData:
-    itemData: {fileID: 0}
-    quantity: 0
-    slotIndex: 0
   _ore: 0
   amount: 0
   _fuelAmount: 0

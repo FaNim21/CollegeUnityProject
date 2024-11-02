@@ -11,7 +11,7 @@ namespace Main.UI.Equipment
     public class InventorySlot : Slot
     {
         private Inventory _inventory;
-        private Structure _structure;
+        private SlotHandler _slotHandler;
 
         [Header("Values")]
         public int index;
@@ -35,6 +35,10 @@ namespace Main.UI.Equipment
             get => _data.quantity;
             private set => _data.quantity = value;
         }
+        public bool SlotHandlerExist
+        {
+            get => _slotHandler != null;
+        }
 
 
         protected override void Start() 
@@ -43,9 +47,9 @@ namespace Main.UI.Equipment
 
             UpdateSlot();
         }
-        public void SetStructure(Structure structure)
+        public void SetSlotHandler(SlotHandler slotHandler)
         {
-            _structure = structure;
+            _slotHandler = slotHandler;
         }
 
         public override void OnDrag(PointerEventData eventData)
@@ -136,7 +140,7 @@ namespace Main.UI.Equipment
         public void AddItem(SlotData newData)
         {
             _data = newData;
-            if (_structure != null)
+            if (SlotHandlerExist)
             {
                 //TODO: 0 trzeba zrobic wykrywanie, ktora baze na slocie czyscie wiec moze jednak zrobie structure slot?
                 //_structure.

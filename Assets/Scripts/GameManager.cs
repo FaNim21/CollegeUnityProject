@@ -2,6 +2,9 @@ using Main.Visual;
 using UnityEngine;
 using Main.Player;
 using Main.Combat;
+using Main.Datas;
+using System.Collections.Generic;
+using Main.UI.Equipment;
 
 namespace Main
 {
@@ -9,11 +12,14 @@ namespace Main
     {
         public static GameManager instance;
 
+        public List<ItemData> items = new();
+
         public MapManager mapManager;
 
         public PlayerController playerController;
         public Popup popup;
         public Projectile projectile;
+        public InventorySlot inventorySlot;
 
 
         private void Awake()
