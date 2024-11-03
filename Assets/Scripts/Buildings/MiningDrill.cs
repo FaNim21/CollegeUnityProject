@@ -1,5 +1,6 @@
 using Main;
 using Main.Datas;
+using Main.Misc;
 using Main.Player;
 using Main.UI.Equipment;
 using Main.UI.Equipment.SidePanels;
@@ -46,9 +47,9 @@ namespace Main.Buildings
         {
             base.Awake();
 
-            UpdateBar(_progressBar, 0);
+            Utils.UpdateBar(_progressBar, 0);
             _fuelAmountText.SetText("0");
-            UpdateBar(_fuelUseBar, 0);
+            Utils.UpdateBar(_fuelUseBar, 0);
 
             outputHandler.structureGuid = guid;
             fuelHandler.structureGuid = guid;
@@ -92,8 +93,8 @@ namespace Main.Buildings
 
             _timer += Time.deltaTime;
             _fuelValue -= Time.deltaTime;
-            UpdateBar(_progressBar, MineProgress);
-            UpdateBar(_fuelUseBar, FuelProgress);
+            Utils.UpdateBar(_progressBar, MineProgress);
+            Utils.UpdateBar(_fuelUseBar, FuelProgress);
             _fuelAmountText.SetText(fuelHandler.data.quantity.ToString());
 
             if (_timer >= _mineTime)

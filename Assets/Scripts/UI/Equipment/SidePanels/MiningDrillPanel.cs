@@ -15,15 +15,7 @@ namespace Main.UI.Equipment.SidePanels
         [SerializeField] private Slider _fuelProgressSlider;
 
 
-        private void Start()
-        {
-        }
         private void Update()
-        {
-            UpdateDrillInformations();
-        }
-
-        private void UpdateDrillInformations()
         {
             _mineProgressSlider.value = _drill.MineProgress;
             _fuelProgressSlider.value = _drill.FuelProgress;

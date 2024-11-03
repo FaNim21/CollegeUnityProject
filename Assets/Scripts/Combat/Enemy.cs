@@ -9,9 +9,7 @@ namespace Main.Combat
         [Header("Components")]
         public Transform body;
         public Transform[] legs;
-
-        [Header("Values")]
-        public float speed;
+        public Transform[] bites;
 
         [Header("Debug")]
         [SerializeField, ReadOnly] private Transform _target;
@@ -19,12 +17,17 @@ namespace Main.Combat
         [SerializeField, ReadOnly] private float _angle;
         [SerializeField, ReadOnly] private float _distance;
         [SerializeField, ReadOnly] private bool _isAttacking;
+        [SerializeField, ReadOnly] private float _attackingTimer;
+        private float _bitesTimer;
+
+        public IDamageable damageableTarget;
 
 
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
             _target = GameManager.instance.GetPlayer();
+            damageableTarget = _target.GetComponent<IDamageable>();
         }
 
         private void Update()
@@ -36,14 +39,53 @@ namespace Main.Combat
             body.rotation = Quaternion.AngleAxis(_angle, Vector3.forward);
 
             _isAttacking = _distance <= 1;
-            if (!_isAttacking) AnimateLegs();
+
+            if (damageableTarget.Died)
+            {
+                FindOtherTarget();
+                return;
+            }
+
+            if (_isAttacking)
+            {
+                Attack();
+            }
+            else
+            {
+                AnimateLegs();
+            }
         }
 
         private void FixedUpdate()
         {
             if (_isAttacking) return;
 
-            _rb.MovePosition(_rb.position + speed * Time.fixedDeltaTime * _direction);
+            _rb.MovePosition(_rb.position + data.speed * Time.fixedDeltaTime * _direction);
+        }
+
+        private void FindOtherTarget()
+        {
+
+        }
+
+        private void Attack()
+        {
+            _attackingTimer += Time.deltaTime;
+            _bitesTimer += Time.deltaTime / data.attackTime;
+
+            float angle = Mathf.Lerp(-30f, 30f, _bitesTimer);
+            float angle2 = Mathf.Lerp(30f, -30f, _bitesTimer);
+            bites[0].localRotation = Quaternion.Euler(0, 0, angle);
+            bites[1].localRotation = Quaternion.Euler(0, 0, angle2);
+
+            if (_attackingTimer >= data.attackTime)
+            {
+                _bitesTimer = 0f;
+                bites[0].localRotation = Quaternion.Euler(0f, 0f, -30f);
+                bites[1].localRotation = Quaternion.Euler(0f, 0f, 30f);
+                damageableTarget.TakeDamage(data.damage);
+                _attackingTimer = 0f;
+            }
         }
 
         private void AnimateLegs()

@@ -1,5 +1,6 @@
 using Main.Combat;
 using Main.Datas;
+using Main.Misc;
 using System;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace Main.Buildings
         [SerializeField, ReadOnly] private float _health;
         [SerializeField, ReadOnly] private bool _died;
 
+        public bool Died { get => _died; set => _died = value; }
+
         private int _maxHealth;
 
 
@@ -33,20 +36,13 @@ namespace Main.Buildings
             if (damage <= 0 || _died) return;
 
             _health -= damage;
-            UpdateBar(_healthBar, _health / _maxHealth);
+            Utils.UpdateBar(_healthBar, Mathf.Max(0f, _health / _maxHealth));
 
             if (_health < 0)
             {
                 _died = true;
                 OnDeath();
             }
-        }
-
-        protected void UpdateBar(Transform bar, float proportion)
-        {
-            Vector3 barScale = bar.localScale;
-            barScale.x = proportion;
-            bar.localScale = barScale;
         }
 
         protected virtual void OnDeath() { }

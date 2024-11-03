@@ -2,6 +2,7 @@
 using Main.Misc;
 using Main.UI;
 using Main.UI.Equipment;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,12 +20,12 @@ namespace Main.Player
         private SpriteRenderer _spriteRenderer;
 
         [Header("Components")]
+        public GameObject body;
         public CanvasHandle canvasHandle;
         public Inventory inventory;
         public Transform shootingOffset;
 
         [Header("Values")]
-        public float speed;
         public int layerMask;
 
         [Header("Debug")]
@@ -53,7 +54,7 @@ namespace Main.Player
 
         private void FixedUpdate()
         {
-            _rb.MovePosition(_rb.position + speed * Time.fixedDeltaTime * _inputDirection);
+            _rb.MovePosition(_rb.position + data.speed * Time.fixedDeltaTime * _inputDirection);
         }
 
         private void Shoot()
@@ -65,6 +66,14 @@ namespace Main.Player
         public void OnMove(InputAction.CallbackContext context)
         {
             _inputDirection = context.ReadValue<Vector2>();
+        }
+
+        public override IEnumerator OnDeath()
+        {
+            body.SetActive(false);
+            yield return new WaitForSeconds(3f);
+            Restart();
+            body.SetActive(true);
         }
     }
 }

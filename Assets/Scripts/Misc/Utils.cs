@@ -5,6 +5,14 @@ namespace Main.Misc
 {
     public class Utils
     {
+        public static void UpdateBar(Transform bar, float proportion)
+        {
+            Vector3 barScale = bar.localScale;
+            barScale.x = proportion;
+            bar.localScale = barScale;
+        }
+
+
         public static Vector3 GetMouseWorldPosition()
         {
             Vector3 vector = GetMouseWorldPositionWithZ(Mouse.current.position.ReadValue(), Camera.main);
