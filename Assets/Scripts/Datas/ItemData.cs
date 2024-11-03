@@ -13,6 +13,7 @@ namespace Main.Datas
     public class ItemData : ScriptableObject
     {
         public int ID;
+        public string codeName;
         public new string name;
         public ItemType type;
         [TextArea(2, 4)] public string description;

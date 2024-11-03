@@ -1,50 +1,57 @@
 using Main.Combat;
 using Main.Datas;
+using System;
 using UnityEngine;
 
-public abstract class Structure : MonoBehaviour, IDamageable
+namespace Main.Buildings
 {
-    public StructureData data;
-
-    [Header("Structure Components")]
-    [SerializeField] private Transform _healthBar;
-
-    [Header("Structure Debug")]
-    [SerializeField, ReadOnly] private float _health;
-    [SerializeField, ReadOnly] private bool _died;
-
-    private int _maxHealth;
-
-
-    protected virtual void Awake()
+    public abstract class Structure : MonoBehaviour, IDamageable
     {
-        _maxHealth = data.maxHealth;
-        _health = _maxHealth;
-    }
+        public Guid guid;
+        public StructureData data;
 
-    public void TakeDamage(int damage)
-    {
-        if (damage <= 0 || _died) return;
+        [Header("Structure Components")]
+        [SerializeField] private Transform _healthBar;
 
-        _health -= damage;
-        UpdateBar(_healthBar, _health / _maxHealth);
+        [Header("Structure Debug")]
+        [SerializeField, ReadOnly] private float _health;
+        [SerializeField, ReadOnly] private bool _died;
 
-        if (_health < 0)
+        private int _maxHealth;
+
+
+        protected virtual void Awake()
         {
-            _died = true;
-            OnDeath();
+            guid = Guid.NewGuid();
+
+            _maxHealth = data.maxHealth;
+            _health = _maxHealth;
         }
+
+        public void TakeDamage(int damage)
+        {
+            if (damage <= 0 || _died) return;
+
+            _health -= damage;
+            UpdateBar(_healthBar, _health / _maxHealth);
+
+            if (_health < 0)
+            {
+                _died = true;
+                OnDeath();
+            }
+        }
+
+        protected void UpdateBar(Transform bar, float proportion)
+        {
+            Vector3 barScale = bar.localScale;
+            barScale.x = proportion;
+            bar.localScale = barScale;
+        }
+
+        protected virtual void OnDeath() { }
+
+        public abstract void OpenGUI();
+        public abstract void OnCollect();
     }
-
-    protected void UpdateBar(Transform bar, float proportion)
-    {
-        Vector3 barScale = bar.localScale;
-        barScale.x = proportion;
-        bar.localScale = barScale;
-    }
-
-    protected virtual void OnDeath() { }
-
-    public abstract void OpenGUI();
-    public abstract void OnCollect();
 }

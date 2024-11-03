@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Main.Combat
+namespace Main.Buildings
 {
     public class Turret : Structure
     {

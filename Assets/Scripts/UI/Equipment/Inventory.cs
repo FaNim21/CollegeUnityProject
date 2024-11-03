@@ -1,12 +1,15 @@
+using Main.Buildings;
 using Main.Datas;
+using Main.Misc;
 using Main.Player;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Main.UI.Equipment
 {
-    [System.Serializable]
+    [Serializable]
     public class SlotData
     {
         public ItemData itemData;
@@ -59,6 +62,7 @@ namespace Main.UI.Equipment
         [Header("Debug")]
         public bool isWindowOpened;
         [SerializeField, ReadOnly] private ISideInventory _openedSideInventory;
+        [SerializeField, ReadOnly] private Guid _openedStructureGuid;
 
 
         private void Awake()
@@ -187,6 +191,7 @@ namespace Main.UI.Equipment
                         _openedSideInventory.CloseWindow();
                     }
                     _openedSideInventory = current;
+                    _openedStructureGuid = structure.guid;
                     return;
                 }
             }
@@ -222,7 +227,14 @@ namespace Main.UI.Equipment
             {
                 _openedSideInventory.CloseWindow();
                 _openedSideInventory = null;
+                _openedStructureGuid = Guid.Empty;
             }
+        }
+
+        public bool IsStructureWindowOpened(Guid guid)
+        {
+            //Utils.Log($"guid1: {guid}, guid2: {_openedStructureGuid}");
+            return guid.Equals(_openedStructureGuid);
         }
     }
 }

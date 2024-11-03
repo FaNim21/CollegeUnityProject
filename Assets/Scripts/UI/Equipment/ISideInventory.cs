@@ -1,4 +1,6 @@
-﻿namespace Main.UI.Equipment
+﻿using Main.Buildings;
+
+namespace Main.UI.Equipment
 {
     public interface ISideInventory
     {

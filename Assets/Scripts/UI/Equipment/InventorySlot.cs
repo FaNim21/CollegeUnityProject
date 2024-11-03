@@ -1,5 +1,6 @@
 using Main.Datas;
 using Main.Misc;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +22,6 @@ namespace Main.UI.Equipment
 
         [Header("Data")]
         [SerializeField] private SlotHandler slotHandler;
-        //[SerializeField] private SlotData _data;
 
         public SlotData Data { get => slotHandler.data; set => slotHandler.data = value; }
 
@@ -40,18 +40,21 @@ namespace Main.UI.Equipment
         protected override void Start() 
         {
             _inventory = GameManager.instance.playerController.inventory;
+            slotHandler.Setup(this);
 
             UpdateSlot();
         }
         public void SetSlotHandler(SlotHandler slotHandler)
         {
             this.slotHandler = slotHandler;
+            this.slotHandler.Setup(this);
 
             UpdateSlot();
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
+            Utils.Log("begni drag");
             ExecuteEvents.Execute(gameObject, eventData, ExecuteEvents.pointerClickHandler);
         }
         public override void OnPointerClick(PointerEventData eventData)
@@ -87,15 +90,6 @@ namespace Main.UI.Equipment
             ItemData data = ItemData;
             UpdateAmount(-halfQuantity);
             StartDragAndDrop(data, halfQuantity, false);
-        }
-
-        public bool GetOneItem()
-        {
-            if (ItemQuantity == 0) return false;
-
-            UpdateAmount(-1);
-            if (ItemQuantity == 0) Clear();
-            return true;
         }
 
         public void UpdateSlot()
@@ -148,7 +142,6 @@ namespace Main.UI.Equipment
             UpdateSlot();
             _inventory.dragAndDrop.UpdateVisual();
         }
-
         private void SwapItemToOtherInventory()
         {
             if (!_inventory.isWindowOpened) return;
@@ -176,6 +169,12 @@ namespace Main.UI.Equipment
 
             emptySlot.OnDrop(Data);
             Clear();
+        }
+
+        public bool IsCorrectWindowOpened(Guid guid)
+        {
+            if (!_inventory.isWindowOpened) return false;
+            return _inventory.IsStructureWindowOpened(guid);
         }
 
         public void Clear()

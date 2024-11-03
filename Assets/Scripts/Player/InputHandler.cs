@@ -1,4 +1,5 @@
-﻿using Main.Misc;
+﻿using Main.Buildings;
+using Main.Misc;
 using Main.Player;
 using Main.UI;
 using Main.UI.Equipment;
@@ -13,7 +14,7 @@ namespace Assets.Scripts.Player
         private CameraController _cameraController;
         private CanvasHandle _canvasHandle;
         private Camera _camera;
-        public Structure sturct;
+        public Structure structure;
 
         [Header("Debug")]
         [SerializeField, ReadOnly] private bool _isDestroying;
@@ -53,7 +54,7 @@ namespace Assets.Scripts.Player
             {
                 var structure = GetStructureOnMouse();
                 if (structure == null) return;
-                sturct = structure;
+                this.structure = structure;
 
                 //TODO: 0 Zrobic nieszczenie ze zbieranie zawartosci
                 Utils.Log($"Started destroying: {structure.name}");

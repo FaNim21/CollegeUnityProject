@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: FerriumOre
   m_EditorClassIdentifier: 
   ID: 2
-  name: Cryserium Ore
+  codeName: Ferrium
+  name: Ferrium Ore
+  type: 1
   description: Ore
   icon: {fileID: 4337684191699249041, guid: df6544d5d59201042acc700b8ee4ce8c, type: 3}
   maxStackSize: 100
+  oreType: 0
+  fuelPower: 0

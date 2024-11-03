@@ -25,7 +25,7 @@ namespace Main.UI.Equipment
         [SerializeField] private Canvas _canvas;
 
         [Header("Data")]
-        [SerializeField] public SlotData _data;
+        public SlotData _data;
 
         public SlotData Data { get => _data; set => _data = value; }
 

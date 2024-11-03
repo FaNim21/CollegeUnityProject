@@ -40,5 +40,19 @@ namespace Main
         {
             return playerController.transform;
         }
+
+        public ItemData GetItemData(string codeName)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                var current = items[i];
+
+                if (current.codeName.Equals(codeName, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return current;
+                }
+            }
+            return null;
+        }
     }
 }
