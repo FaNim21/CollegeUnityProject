@@ -33,12 +33,6 @@ namespace Main.UI.Equipment.SidePanels
             _drill = drill;
             _fuelSlot.SetSlotHandler(_drill.fuelHandler);
             _outputSlot.SetSlotHandler(_drill.outputHandler);
-
-            var fuel = _drill.GetFuel();
-            if (fuel != null)
-            {
-                _fuelSlot.AddItem(fuel);
-            }
         }
 
         private void Clear()

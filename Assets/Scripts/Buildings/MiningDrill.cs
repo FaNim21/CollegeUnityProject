@@ -76,14 +76,15 @@ public class MiningDrill : Structure
     {
         _ore = _mapManager.GetOreOnTile(transform.position);
         if (_ore == OreType.None) yield break;
+
+        if (_ore == OreType.Cryserium)
+        {
+
+        }
+
         yield return new WaitForSeconds(1f);
         _isMining = true;
         _canMine = true;
-    }
-
-    public SlotData GetFuel()
-    {
-        return fuelHandler.data;
     }
 
     public override void OnCollect()

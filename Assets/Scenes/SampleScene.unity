@@ -705,6 +705,14 @@ PrefabInstance:
       propertyPath: _data.quantity
       value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 8154809863814076795, guid: 38327bee67699254394a389eabfc306c, type: 3}
+      propertyPath: slotHandler.data.itemData
+      value: 
+      objectReference: {fileID: 11400000, guid: 554ea92be99b8604c9d2cc090b7075fd, type: 2}
+    - target: {fileID: 8154809863814076795, guid: 38327bee67699254394a389eabfc306c, type: 3}
+      propertyPath: slotHandler.data.quantity
+      value: 34
+      objectReference: {fileID: 0}
     - target: {fileID: 8849583608196814033, guid: 38327bee67699254394a389eabfc306c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1887,7 +1895,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0604c967c6efb8409a68f317965e800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - {fileID: 11400000, guid: 554ea92be99b8604c9d2cc090b7075fd, type: 2}
+  - {fileID: 11400000, guid: 16e4a71c23c76bd43831616a1149562c, type: 2}
   mapManager: {fileID: 830095410}
   playerController: {fileID: 231037574}
   popup: {fileID: 3934579647951817699, guid: 09dbc45839c458b41b3b67a47d801d24, type: 3}
@@ -2565,12 +2575,14 @@ MonoBehaviour:
   craftingBackground: {fileID: 1979175344}
   sidePanelParent: {fileID: 1366269925}
   slotCount: 120
+  quickbarSlotsCount: 5
   slots:
   - {fileID: 1366616212}
   - {fileID: 1240903712}
   - {fileID: 1411655743}
   - {fileID: 734909780}
   - {fileID: 1807105242}
+  isWindowOpened: 0
 --- !u!1 &1366269924
 GameObject:
   m_ObjectHideFlags: 0

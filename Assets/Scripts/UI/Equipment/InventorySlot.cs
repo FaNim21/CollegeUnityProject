@@ -11,7 +11,6 @@ namespace Main.UI.Equipment
     public class InventorySlot : Slot
     {
         private Inventory _inventory;
-        private SlotHandler _slotHandler;
 
         [Header("Values")]
         public int index;
@@ -21,23 +20,20 @@ namespace Main.UI.Equipment
         [SerializeField] private TextMeshProUGUI _amountText;
 
         [Header("Data")]
-        [SerializeField] private SlotData _data;
+        [SerializeField] private SlotHandler slotHandler;
+        //[SerializeField] private SlotData _data;
 
-        public SlotData Data { get => _data; }
+        public SlotData Data { get => slotHandler.data; set => slotHandler.data = value; }
 
         public ItemData ItemData
         {
-            get => _data.itemData;
-            private set => _data.itemData = value;
+            get => Data.itemData;
+            private set => Data.itemData = value;
         }
         public int ItemQuantity
         {
-            get => _data.quantity;
-            private set => _data.quantity = value;
-        }
-        public bool SlotHandlerExist
-        {
-            get => _slotHandler != null;
+            get => Data.quantity;
+            private set => Data.quantity = value;
         }
 
 
@@ -49,7 +45,9 @@ namespace Main.UI.Equipment
         }
         public void SetSlotHandler(SlotHandler slotHandler)
         {
-            _slotHandler = slotHandler;
+            this.slotHandler = slotHandler;
+
+            UpdateSlot();
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
@@ -74,18 +72,17 @@ namespace Main.UI.Equipment
             }
 
             if (ItemData == null && _inventory.dragAndDrop.gameObject.activeSelf) return;
-            StartDragAndDrop(_data.itemData, _data.quantity);
+            StartDragAndDrop(Data.itemData, Data.quantity);
         }
 
         public void OnDrop(SlotData slotData, int quantity = -1)
         {
-            _data = new SlotData(slotData.itemData, quantity == -1 ? slotData.quantity : quantity, index);
+            Data = new SlotData(slotData.itemData, quantity == -1 ? slotData.quantity : quantity, index);
             UpdateSlot();
         }
 
         private void TakeHalfItems()
         {
-            //TODO: 0 problem z braniem polowy itemow poniewaz zmienia sie wartosc dziwnie?
             int halfQuantity = Mathf.Max(1, ItemQuantity / 2);
             ItemData data = ItemData;
             UpdateAmount(-halfQuantity);
@@ -117,12 +114,7 @@ namespace Main.UI.Equipment
 
         public void AddItem(SlotData newData)
         {
-            _data = newData;
-            if (SlotHandlerExist)
-            {
-                //TODO: 0 trzeba zrobic wykrywanie, ktora baze na slocie czyscie wiec moze jednak zrobie structure slot?
-                //_structure.
-            }
+            Data = newData;
             UpdateSlot();
         }
 
@@ -142,7 +134,7 @@ namespace Main.UI.Equipment
         {
             if (slot.IsEmpty() && IsEmpty()) return;
 
-            (_data, slot._data) = (slot._data, _data);
+            slotHandler.Swap(slot.slotHandler);
 
             UpdateSlot();
             slot.UpdateSlot();
@@ -151,7 +143,7 @@ namespace Main.UI.Equipment
         {
             if (!_inventory.dragAndDrop.IsActive() || IsEmpty()) return;
 
-            (_data, _inventory.dragAndDrop.Data) = (_inventory.dragAndDrop.Data, _data);
+            (Data, _inventory.dragAndDrop.Data) = (_inventory.dragAndDrop.Data, Data);
 
             UpdateSlot();
             _inventory.dragAndDrop.UpdateVisual();
@@ -168,10 +160,10 @@ namespace Main.UI.Equipment
             switch (currentSlotPositon)
             {
                 case "QuickBar":
-                    emptySlot = _inventory.GetEmptySlotInEq(_data, out onlyAutoCompleted);
+                    emptySlot = _inventory.GetEmptySlotInEq(Data, out onlyAutoCompleted);
                     break;
                 case "Background":
-                    emptySlot = _inventory.GetEmptySlotInQuickBar(_data, out onlyAutoCompleted);
+                    emptySlot = _inventory.GetEmptySlotInQuickBar(Data, out onlyAutoCompleted);
                     break;
             }
 
@@ -182,29 +174,23 @@ namespace Main.UI.Equipment
             }
             else if (emptySlot == null) return;
 
-            emptySlot.OnDrop(_data);
+            emptySlot.OnDrop(Data);
             Clear();
         }
 
         public void Clear()
         {
-            if (_data.itemData == null) return;
+            if (slotHandler.data.itemData == null) return;
 
-            Utils.Log($"Clear {_data.itemData.name}");
-            _data = null;
-            _data = new SlotData();
-
+            slotHandler.Clear();
             UpdateSlot();
         }
 
         public void DeepClear()
         {
-            if (_data.itemData == null) return;
+            if (slotHandler.data.itemData == null) return;
 
-            Utils.Log($"Deep clear {_data.itemData.name}");
-            _data.itemData = null;
-            _data.quantity = 0;
-
+            slotHandler.DeepClear();
             UpdateSlot();
         }
     }

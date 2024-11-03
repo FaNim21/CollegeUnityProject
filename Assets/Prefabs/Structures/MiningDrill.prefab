@@ -86,7 +86,7 @@ MonoBehaviour:
   _fuelUseBar: {fileID: 1454422339784414653}
   _progressBar: {fileID: 3460962125470948693}
   fuelHandler:
-    type: 0
+    type: 1
     itemType: 2
     itemData: {fileID: 0}
     data:
@@ -94,7 +94,7 @@ MonoBehaviour:
       quantity: 0
       slotIndex: 0
   outputHandler:
-    type: 2
+    type: 0
     itemType: 0
     itemData: {fileID: 0}
     data:
