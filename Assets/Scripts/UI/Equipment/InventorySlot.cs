@@ -52,7 +52,7 @@ namespace Main.UI.Equipment
             _slotHandler = slotHandler;
         }
 
-        public override void OnDrag(PointerEventData eventData)
+        public override void OnBeginDrag(PointerEventData eventData)
         {
             ExecuteEvents.Execute(gameObject, eventData, ExecuteEvents.pointerClickHandler);
         }
@@ -67,14 +67,9 @@ namespace Main.UI.Equipment
             }
             if (Keyboard.current.leftShiftKey.isPressed) return;
 
-            if (eventData.button == PointerEventData.InputButton.Right && Keyboard.current.leftCtrlKey.isPressed)
-            {
-                TakeHalfItems();
-                return;
-            }
             if (eventData.button == PointerEventData.InputButton.Right)
             {
-                TakeOneItem();
+                TakeHalfItems();
                 return;
             }
 
@@ -82,19 +77,15 @@ namespace Main.UI.Equipment
             StartDragAndDrop(_data.itemData, _data.quantity);
         }
 
-        public void OnDrop(SlotData slotData)
+        public void OnDrop(SlotData slotData, int quantity = -1)
         {
-            _data = new SlotData(slotData.itemData, slotData.quantity, index);
+            _data = new SlotData(slotData.itemData, quantity == -1 ? slotData.quantity : quantity, index);
             UpdateSlot();
         }
 
-        private void TakeOneItem()
-        {
-            ItemData data = ItemData;
-            if (GetOneItem()) StartDragAndDrop(data, 1, false);
-        }
         private void TakeHalfItems()
         {
+            //TODO: 0 problem z braniem polowy itemow poniewaz zmienia sie wartosc dziwnie?
             int halfQuantity = Mathf.Max(1, ItemQuantity / 2);
             ItemData data = ItemData;
             UpdateAmount(-halfQuantity);
@@ -106,19 +97,6 @@ namespace Main.UI.Equipment
             if (ItemQuantity == 0) return false;
 
             UpdateAmount(-1);
-            if (ItemQuantity == 0) Clear();
-            return true;
-        }
-        public bool GetHalfItems(int outsideQuantity, out int halfQuantity)
-        {
-            halfQuantity = Mathf.Max(1, ItemQuantity / 2);
-
-            if (ItemQuantity == 0) return false;
-
-            int need = ItemData.maxStackSize - outsideQuantity;
-            halfQuantity = (outsideQuantity - need < 0) ? outsideQuantity : need;
-
-            UpdateAmount(-halfQuantity);
             if (ItemQuantity == 0) Clear();
             return true;
         }
@@ -181,6 +159,8 @@ namespace Main.UI.Equipment
 
         private void SwapItemToOtherInventory()
         {
+            if (!_inventory.isWindowOpened) return;
+
             InventorySlot emptySlot = null;
             string currentSlotPositon = transform.parent.name;
             bool onlyAutoCompleted = false;
@@ -190,7 +170,7 @@ namespace Main.UI.Equipment
                 case "QuickBar":
                     emptySlot = _inventory.GetEmptySlotInEq(_data, out onlyAutoCompleted);
                     break;
-                case "Equipment":
+                case "Background":
                     emptySlot = _inventory.GetEmptySlotInQuickBar(_data, out onlyAutoCompleted);
                     break;
             }

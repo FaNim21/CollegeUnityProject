@@ -79,16 +79,15 @@ namespace Main.UI.Equipment
             {
                 if (eventData.button == PointerEventData.InputButton.Left)
                     DropOnSlot(slot);
-                //TODO: 0 zrobic upuszczanie pojedynczo itemy i polowe trzymanego stacka 
+                if (eventData.button == PointerEventData.InputButton.Right)
+                    DropOneItem(slot);
             }
             else if (slot.ItemData == _data.itemData)
             {
                 if (eventData.button == PointerEventData.InputButton.Left)
                     FillSlot(slot);
-                else if (eventData.button == PointerEventData.InputButton.Right && Keyboard.current.leftCtrlKey.isPressed)
-                    TakeHalfItems(slot);
                 else if (eventData.button == PointerEventData.InputButton.Right)
-                    TakeOneItem(slot);
+                    GiveOneItem(slot);
             }
             else
             {
@@ -107,7 +106,6 @@ namespace Main.UI.Equipment
             while (_canvasHandle.isDragging)
             {
                 transform.position = Utils.GetMouseWorldPosition();
-
                 yield return null;
             }
         }
@@ -118,13 +116,19 @@ namespace Main.UI.Equipment
             Disable();
         }
 
-        private void TakeOneItem(InventorySlot slot)
+        private void DropOneItem(InventorySlot slot)
         {
-            if (_data.quantity != _data.itemData.maxStackSize && slot.GetOneItem()) UpdateQuantity(1);
+            slot.OnDrop(_data, 1);
+            UpdateQuantity(-1);
         }
-        private void TakeHalfItems(InventorySlot slot)
+
+        private void GiveOneItem(InventorySlot slot)
         {
-            if (slot.GetHalfItems(_data.quantity, out int halfQuantity)) UpdateQuantity(halfQuantity);
+            if (slot.ItemQuantity != slot.ItemData.maxStackSize)
+            {
+                UpdateQuantity(-1);
+                slot.UpdateAmount(1);
+            }
         }
 
         private void FillSlot(InventorySlot slot)

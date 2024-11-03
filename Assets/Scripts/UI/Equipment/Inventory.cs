@@ -19,6 +19,12 @@ namespace Main.UI.Equipment
             this.quantity = quantity;
             this.slotIndex = slotIndex;
         }
+        public SlotData(SlotData slotData)
+        {
+            itemData = slotData.itemData;
+            quantity = slotData.quantity;
+            slotIndex = slotData.slotIndex;
+        }
 
         public bool IsEmpty()
         {
@@ -47,9 +53,11 @@ namespace Main.UI.Equipment
 
         [Header("Slots")]
         public int slotCount;
+        public int quickbarSlotsCount = 5;
         public List<InventorySlot> slots = new();
 
         [Header("Debug")]
+        public bool isWindowOpened;
         [SerializeField, ReadOnly] private ISideInventory _openedSideInventory;
 
 
@@ -81,6 +89,7 @@ namespace Main.UI.Equipment
 
         public bool DropItem(SlotData slotData)
         {
+            //Wyrzucac item na ziemie
             return false;
         }
 
@@ -115,10 +124,10 @@ namespace Main.UI.Equipment
 
         public InventorySlot GetEmptySlotInQuickBar(SlotData slotData, out bool fullComplete)
         {
-            fullComplete = AutoCompleteItems(slots, slotData, 8);
+            fullComplete = AutoCompleteItems(slots, slotData, quickbarSlotsCount);
             if (slotData.quantity == 0) return null;
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < quickbarSlotsCount; i++)
             {
                 var current = slots[i];
                 if (current.ItemData == null) return current;
@@ -127,10 +136,10 @@ namespace Main.UI.Equipment
         }
         public InventorySlot GetEmptySlotInEq(SlotData slotData, out bool fullComplete)
         {
-            fullComplete = AutoCompleteItems(slots, slotData, slots.Count, 8);
+            fullComplete = AutoCompleteItems(slots, slotData, slots.Count, quickbarSlotsCount);
             if (slotData.quantity == 0) return null;
 
-            for (int i = 8; i < slots.Count; i++)
+            for (int i = quickbarSlotsCount; i < slots.Count; i++)
             {
                 var current = slots[i];
                 if (current.ItemData == null) return current;
@@ -190,6 +199,7 @@ namespace Main.UI.Equipment
         }
         public void OpenWindow()
         {
+            isWindowOpened = true;
             background.SetActive(true);
         }
         public void ToggleWindow()
@@ -204,6 +214,7 @@ namespace Main.UI.Equipment
         }
         public void CloseWindow()
         {
+            isWindowOpened = false;
             background.SetActive(false);
             craftingBackground.SetActive(false);
 

@@ -3,11 +3,11 @@ using UnityEngine.EventSystems;
 
 namespace Main.UI.Equipment
 {
-    public abstract class Slot : MonoBehaviour, IPointerClickHandler, IDragHandler
+    public abstract class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
     {
         protected abstract void Start();
 
         public abstract void OnPointerClick(PointerEventData eventData);
-        public abstract void OnDrag(PointerEventData eventData);
+        public abstract void OnBeginDrag(PointerEventData eventData);
     }
 }
