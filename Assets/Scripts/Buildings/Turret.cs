@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Main.UI.Equipment;
+using Main.Visual;
+using UnityEngine;
 
 namespace Main.Buildings
 {
@@ -47,9 +49,9 @@ namespace Main.Buildings
             return sqrDistance < range * range;
         }
 
-        public override void OnCollect()
+        public override void OnCollect(Inventory inventory)
         {
-
+            Popup.Create(transform.position, "Collected Turret", Color.black);
         }
 
         public override void OpenGUI()

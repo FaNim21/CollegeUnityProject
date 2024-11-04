@@ -1,6 +1,7 @@
 using Main.Combat;
 using Main.Datas;
 using Main.Misc;
+using Main.UI.Equipment;
 using System;
 using UnityEngine;
 
@@ -48,6 +49,6 @@ namespace Main.Buildings
         protected virtual void OnDeath() { }
 
         public abstract void OpenGUI();
-        public abstract void OnCollect();
+        public abstract void OnCollect(Inventory inventory);
     }
 }

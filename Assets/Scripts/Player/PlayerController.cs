@@ -42,16 +42,14 @@ namespace Main.Player
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
-
         private void Update()
         {
             _mousePosition = Utils.GetMouseWorldPosition();
             _aimDirection = (_mousePosition - (Vector2)shootingOffset.position).normalized;
             _aimAngle = Mathf.Atan2(_aimDirection.y, _aimDirection.x) * Mathf.Rad2Deg;
 
-            if (Mouse.current.leftButton.wasPressedThisFrame && !canvasHandle.isCanvasEnabled && !canvasHandle.isPointerOverGameObject) Shoot();
+            if (Keyboard.current.spaceKey.wasPressedThisFrame) Shoot();
         }
-
         private void FixedUpdate()
         {
             _rb.MovePosition(_rb.position + data.speed * Time.fixedDeltaTime * _inputDirection);
@@ -59,6 +57,8 @@ namespace Main.Player
 
         private void Shoot()
         {
+            if (canvasHandle.isCanvasEnabled || canvasHandle.isPointerOverGameObject || Died) return;
+
             var projectile = Instantiate(GameManager.instance.projectile, shootingOffset.position, Quaternion.Euler(0, 0, _aimAngle));
             projectile.Setup(layerMask, Quaternion.Euler(0, 0, _aimAngle) * Vector2.right, 10, 10);
         }

@@ -52,7 +52,11 @@ namespace Main.Visual
         {
             if (_popup == null) _popup = popup;
 
-            transform.position = position;
+            float posX = Random.Range(position.x - 0.2f, position.x + 0.2f);
+            float posY = Random.Range(position.y - 0.07f, position.y + 0.07f);
+            float rotation = Random.Range(-5f, 5f);
+            transform.position = new Vector2(posX, posY);
+            transform.rotation = Quaternion.Euler(0, 0, rotation);
             textMesh.SetText(amountText.ToString());
             if (textMesh.color != color) textMesh.color = color;
             if (textMesh.fontSize != fontSize) textMesh.fontSize = fontSize;

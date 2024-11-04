@@ -45,9 +45,6 @@ namespace Main.UI.Equipment
         public PlayerController player;
         public DragAndDrop dragAndDrop;
 
-        [Header("Components")]
-        public Slider destructionProgressSlider;
-
         [Header("Objects")]
         public GameObject background;
         public GameObject craftingBackground;

@@ -85,6 +85,7 @@ MonoBehaviour:
   _fuelAmountText: {fileID: 9172866426746666286}
   _fuelUseBar: {fileID: 1454422339784414653}
   _progressBar: {fileID: 3460962125470948693}
+  outputItem: {fileID: 0}
   fuelHandler:
     type: 1
     itemType: 2
@@ -103,12 +104,13 @@ MonoBehaviour:
       slotIndex: 0
   _maxStock: 5
   _mineTime: 4
-  _fuelPerMine: 0.1
   _ore: 0
-  amount: 0
-  _fuelAmount: 0
+  _amount: 0
+  _fuelValue: 0
+  _fuelValueMax: 40
   _canMine: 0
   _isMining: 0
+  _isFuelUsed: 0
   _timer: 0
 --- !u!1 &6083548054560646855
 GameObject:
@@ -177,7 +179,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0029036403, y: -0.004355356}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.28866667}
@@ -187,7 +189,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8, y: 0.8}
+  m_Size: {x: 0.94517446, y: 0.9654982}
   m_EdgeRadius: 0
 --- !u!1 &7029357501621565017
 GameObject:

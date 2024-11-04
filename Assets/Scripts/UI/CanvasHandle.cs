@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using Main.Player;
-using Main.Misc;
 
 namespace Main.UI
 {

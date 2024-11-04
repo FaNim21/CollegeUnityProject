@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Biter
   m_EditorClassIdentifier: 
   maxHealth: 200
-  damage: 30
+  damage: 24
   speed: 3
-  attackTime: 1
+  attackTime: 1.2

@@ -600,8 +600,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9bf466298759843bc92c466bb4cf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structure: {fileID: 0}
-  _isDestroying: 0
+  obtainingSlider: {fileID: 245036609}
+  _obtainType: 0
+  _obtainingStructure: {fileID: 0}
+  _obtainingOre: 0
+  _isObtaining: 0
+  _obtainingTimeAmount: 0
+  _obtainingTimer: 0
 --- !u!1 &245036607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,11 +1879,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4354963751016522457, guid: a470ea0a4033efd4d924e0e0464a88e0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.34
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4354963751016522457, guid: a470ea0a4033efd4d924e0e0464a88e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.42
+      value: 8.5
       objectReference: {fileID: 0}
     - target: {fileID: 4354963751016522457, guid: a470ea0a4033efd4d924e0e0464a88e0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2720,7 +2725,6 @@ MonoBehaviour:
   _canvasHandle: {fileID: 1718893882}
   player: {fileID: 231037574}
   dragAndDrop: {fileID: 1897296611}
-  destructionProgressSlider: {fileID: 245036609}
   background: {fileID: 2022329685}
   craftingBackground: {fileID: 1979175344}
   sidePanelParent: {fileID: 1366269925}
@@ -3549,6 +3553,10 @@ PrefabInstance:
     - target: {fileID: 8806310765239319346, guid: e873bd698abf0b549977d13bc82330f4, type: 3}
       propertyPath: m_Name
       value: Biter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8806310765239319346, guid: e873bd698abf0b549977d13bc82330f4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
