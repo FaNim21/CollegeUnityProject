@@ -52,6 +52,7 @@ namespace Main.Buildings
         public override void OnCollect(Inventory inventory)
         {
             Popup.Create(transform.position, "Collected Turret", Color.black);
+            base.OnCollect(inventory);
         }
 
         public override void OpenGUI()

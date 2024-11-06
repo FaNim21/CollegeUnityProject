@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: bb1e0469572915e4eaa948124d6f89bd, type: 2}
+  itemData: {fileID: 11400000, guid: 292354986bb89604e8dda934c135e87e, type: 2}
   _healthBar: {fileID: 5452661621795131433}
   _health: 0
   _died: 0

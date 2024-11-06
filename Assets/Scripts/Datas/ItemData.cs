@@ -7,6 +7,7 @@ namespace Main.Datas
         None,
         Material,
         Fuel,
+        Structure,
     }
 
     [CreateAssetMenu(fileName = "New Equipment Item", menuName = "Inventory/Item")]

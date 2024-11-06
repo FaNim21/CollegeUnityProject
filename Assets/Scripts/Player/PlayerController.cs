@@ -21,6 +21,7 @@ namespace Main.Player
 
         [Header("Components")]
         public GameObject body;
+        public CameraController cameraController;
         public CanvasHandle canvasHandle;
         public Inventory inventory;
         public Transform shootingOffset;
@@ -52,7 +53,19 @@ namespace Main.Player
         }
         private void FixedUpdate()
         {
-            _rb.MovePosition(_rb.position + data.speed * Time.fixedDeltaTime * _inputDirection);
+            Vector2 newPosition = _rb.position + data.speed * Time.fixedDeltaTime * _inputDirection;
+            Vector2 adjustedDirection = _inputDirection;
+
+            if (!cameraController.IsInBounds(new Vector2(newPosition.x, _rb.position.y)))
+            {
+                adjustedDirection.x = 0;
+            }
+            if (!cameraController.IsInBounds(new Vector2(_rb.position.x, newPosition.y)))
+            {
+                adjustedDirection.y = 0;
+            }
+
+            _rb.MovePosition(_rb.position + data.speed * Time.fixedDeltaTime * adjustedDirection);
         }
 
         private void Shoot()

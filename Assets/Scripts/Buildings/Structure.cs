@@ -10,7 +10,8 @@ namespace Main.Buildings
     public abstract class Structure : MonoBehaviour, IDamageable
     {
         public Guid guid;
-        public StructureData data;
+        [SerializeField] protected StructureData data;
+        [SerializeField] protected ItemData itemData;
 
         [Header("Structure Components")]
         [SerializeField] private Transform _healthBar;
@@ -49,6 +50,9 @@ namespace Main.Buildings
         protected virtual void OnDeath() { }
 
         public abstract void OpenGUI();
-        public abstract void OnCollect(Inventory inventory);
+        public virtual void OnCollect(Inventory inventory)
+        {
+            inventory.AddToInventory(itemData, 1);
+        }
     }
 }

@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 6b9a9781ebe54d841bdcf7edb3dce32e, type: 2}
+  itemData: {fileID: 11400000, guid: 69f671f5ea8c8b44d85552a0a5378f83, type: 2}
   _healthBar: {fileID: 4042660178258850483}
   _health: 0
   _died: 0

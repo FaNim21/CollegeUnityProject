@@ -121,19 +121,26 @@ namespace Main.Buildings
         {
             Destroy(gameObject);
 
-            Popup.Create(transform.position, "Collected Mining Drill", Color.black);
-
             if (fuelHandler.data.itemData != null)
             {
                 bool success = inventory.AddToInventory(fuelHandler.data.itemData, fuelHandler.data.quantity);
-                Popup.Create(transform.position + new Vector3(0, 0.5f), $"Collected {fuelHandler.data.quantity} {fuelHandler.data.itemData.name}", Color.black);
+                if (success)
+                {
+                    Popup.Create(transform.position + new Vector3(0, 0.5f), $"Collected {fuelHandler.data.quantity} {fuelHandler.data.itemData.name}", Color.black);
+                }
             }
 
             if (outputHandler.data.itemData != null)
             {
                 bool success = inventory.AddToInventory(outputHandler.data.itemData, outputHandler.data.quantity);
-                Popup.Create(transform.position + new Vector3(0, 1f), $"Collected {outputHandler.data.quantity} {outputHandler.data.itemData.name}", Color.black);
+                if (success)
+                {
+                    Popup.Create(transform.position + new Vector3(0, 1f), $"Collected {outputHandler.data.quantity} {outputHandler.data.itemData.name}", Color.black);
+                }
             }
+
+            Popup.Create(transform.position, "Collected Mining Drill", Color.black);
+            base.OnCollect(inventory);
         }
         public override void OpenGUI()
         {
