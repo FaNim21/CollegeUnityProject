@@ -20,3 +20,4 @@ MonoBehaviour:
   icon: {fileID: -207843892, guid: df6544d5d59201042acc700b8ee4ce8c, type: 3}
   maxStackSize: 10
   fuelPower: 0
+  structure: {fileID: 4329948937441160300, guid: a470ea0a4033efd4d924e0e0464a88e0, type: 3}

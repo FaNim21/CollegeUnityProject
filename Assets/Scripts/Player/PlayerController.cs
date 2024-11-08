@@ -8,12 +8,6 @@ using UnityEngine.InputSystem;
 
 namespace Main.Player
 {
-    public enum Mode
-    {
-        Normal,
-        Building,
-    }
-
     public class PlayerController : Entity
     {
         private Rigidbody2D _rb;
@@ -30,7 +24,6 @@ namespace Main.Player
         public int layerMask;
 
         [Header("Debug")]
-        [SerializeField, ReadOnly] private Mode _mode;
         [SerializeField, ReadOnly] private Vector2 _inputDirection;
         [SerializeField, ReadOnly] private float _currentSpeed;
         [SerializeField, ReadOnly] private float _aimAngle;

@@ -19,6 +19,7 @@ namespace Main.UI.Equipment
         [Header("Components")]
         [SerializeField] private Image _image;
         [SerializeField] private TextMeshProUGUI _amountText;
+        [SerializeField] private GameObject _selectedImage;
 
         [Header("Data")]
         [SerializeField] private SlotHandler slotHandler;
@@ -191,6 +192,15 @@ namespace Main.UI.Equipment
 
             slotHandler.DeepClear();
             UpdateSlot();
+        }
+
+        public void Select()
+        {
+            _selectedImage.SetActive(true);
+        }
+        public void UnSelect()
+        {
+            _selectedImage.SetActive(false);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Main.Buildings
             base.Awake();
 
             rangeFieldRenderer.gameObject.SetActive(true);
-            rangeFieldRenderer.size = new Vector2(range*2, range*2);
+            rangeFieldRenderer.size = new Vector2(range * 2, range * 2);
         }
         private void Update()
         {

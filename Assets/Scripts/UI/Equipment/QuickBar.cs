@@ -11,6 +11,7 @@ namespace Main.UI.Equipment
         [SerializeField] private PlayerController player;
         [SerializeField] private Inventory _inventory;
 
+
         public void SetSelection(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
@@ -36,14 +37,9 @@ namespace Main.UI.Equipment
                 }
                 else
                 {
-                    Select(choice);
+                    _inventory.SelectSlot(choice);
                 }
             }
-        }
-
-        private void Select(int choice)
-        {
-            //TODO: 0 zrobic zaznaczanie slotu
         }
     }
 }

@@ -1,11 +1,9 @@
 using Main.Buildings;
 using Main.Datas;
-using Main.Misc;
 using Main.Player;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Main.UI.Equipment
 {
@@ -43,6 +41,7 @@ namespace Main.UI.Equipment
         [Header("References")]
         [SerializeField] private CanvasHandle _canvasHandle;
         public PlayerController player;
+        public StructureBuilder builder;
         public DragAndDrop dragAndDrop;
 
         [Header("Objects")]
@@ -57,6 +56,7 @@ namespace Main.UI.Equipment
         public List<InventorySlot> slots = new();
 
         [Header("Debug")]
+        [SerializeField, ReadOnly] private InventorySlot _selectedSlot;
         public bool isWindowOpened;
         [SerializeField, ReadOnly] private ISideInventory _openedSideInventory;
         [SerializeField, ReadOnly] private Guid _openedStructureGuid;
@@ -86,6 +86,23 @@ namespace Main.UI.Equipment
         private void Start()
         {
             dragAndDrop.Initialize();
+        }
+
+        public void SelectSlot(int choice)
+        {
+            if (_selectedSlot != null)
+                _selectedSlot.UnSelect();
+
+            _selectedSlot = slots[choice];
+            _selectedSlot.Select();
+
+            if (_selectedSlot.ItemData.type == ItemType.Structure)
+            {
+                //TODO: 0 tutaj uwzglednic fakt ze jak przedmiot jest struktura to wtedy wchodzi w tryb budowania
+                //i respi ta strukture
+
+
+            }
         }
 
         public bool DropItem(SlotData slotData)

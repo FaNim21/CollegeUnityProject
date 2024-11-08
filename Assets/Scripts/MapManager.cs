@@ -13,6 +13,8 @@ public class MapManager : MonoBehaviour
 {
     [SerializeField] private Tilemap map;
 
+    public float mapSize;
+
 
     public OreType GetOreOnTile(Vector2 position)
     {

@@ -1,3 +1,4 @@
+using Main.Buildings;
 using UnityEngine;
 
 namespace Main.Datas
@@ -23,5 +24,8 @@ namespace Main.Datas
 
         [Header("Fuel")]
         public float fuelPower;
+
+        [Header("Structure")]
+        public Structure structure;
     }
 }

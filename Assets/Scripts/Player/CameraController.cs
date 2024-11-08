@@ -5,10 +5,10 @@ namespace Main.Player
     public class CameraController : MonoBehaviour
     {
         private Camera _camera;
+        public MapManager mapManager;
 
         [Header("Values")]
         [SerializeField] private Vector2 zoomSize;
-        [SerializeField] private float boundsLength;
         [SerializeField] private Vector2 boundsOffset;
         [SerializeField] private Vector2 _offset;
 
@@ -19,6 +19,7 @@ namespace Main.Player
         [SerializeField, ReadOnly] private float _zoom;
         [SerializeField, Range(0f, 1f)] private float smoothSpeed = 0.125f;
 
+        private float _boundsLength;
         private float _halfBoundsLength;
         private Vector3 _velocity = Vector3.zero;
 
@@ -30,13 +31,15 @@ namespace Main.Player
 
             _zoom = _camera.orthographicSize;
             transform.position = new Vector3(target.position.x + _offset.x, target.position.y + _offset.y, -10);
-            _halfBoundsLength = boundsLength / 2;
+
+            _boundsLength = mapManager.mapSize;
+            _halfBoundsLength = _boundsLength / 2;
         }
 
         private void Update()
         {
-            bounds.x = boundsLength / 2f - _zoom * _camera.aspect;
-            bounds.y = boundsLength / 2f - _zoom;
+            bounds.x = _boundsLength / 2f - _zoom * _camera.aspect;
+            bounds.y = _boundsLength / 2f - _zoom;
         }
 
         private void LateUpdate()
@@ -55,7 +58,7 @@ namespace Main.Player
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(Vector2.zero, new Vector2(boundsLength, boundsLength));
+            Gizmos.DrawWireCube(Vector2.zero, new Vector2(_boundsLength, _boundsLength));
         }
 
         public bool IsInBounds(Vector2 position)
