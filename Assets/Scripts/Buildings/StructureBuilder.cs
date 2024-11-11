@@ -70,14 +70,7 @@ namespace Main.Buildings
             _structure.EnterPlacementMode();
             _isStructureSpawned = true;
             _isPlacing = true;
-
-            bool overlapping = _mapManager.CheckForStructure((Vector2)_structure.transform.position - _structure.placementPosition, _structure.trueSize);
-            if (overlapping)
-            {
-                _structure.transform.position = new Vector2(500, 500);
-                //nie dokladnie tutaj, ale gdzies tutaj jest problem z respieniem obiektu typu: przy turrecie przelaczyc w trybie budowania
-                //turret i miner kratke nad turretem to wtedy miner jest w turrecie
-            }
+            _previousPosition = Vector2.zero;
         }
 
         public void Place()
@@ -134,7 +127,6 @@ namespace Main.Buildings
                 Destroy(_structure.gameObject);
                 _structure = null;
             }
-            //Utils.Log("Canceled building");
         }
 
         public bool IsPlacing()

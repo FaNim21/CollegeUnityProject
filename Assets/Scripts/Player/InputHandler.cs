@@ -195,6 +195,7 @@ namespace Main.Player
             if (!raycastHit.collider) return null;
 
             var structure = raycastHit.collider.GetComponentInParent<Structure>();
+            if (!structure.canBeObtained) return null;
             return structure;
         }
 

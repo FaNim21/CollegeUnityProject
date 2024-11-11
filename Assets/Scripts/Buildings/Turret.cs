@@ -59,10 +59,7 @@ namespace Main.Buildings
             base.OnCollect(inventory);
         }
 
-        public override void OpenGUI()
-        {
-
-        }
+        public override void OpenGUI() { }
 
         public override void EnterPlacementMode()
         {

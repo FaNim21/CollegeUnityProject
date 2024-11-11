@@ -18,6 +18,8 @@ namespace Main.Buildings
         [SerializeField] protected StructureData data;
         [SerializeField] protected ItemData itemData;
 
+        public bool canBeObtained = true;
+
         [Header("Structure Components")]
         [SerializeField] private Transform _healthBar;
         [SerializeField] private Collider2D _collider;
@@ -57,6 +59,7 @@ namespace Main.Buildings
         {
             if (damage <= 0 || _died) return;
 
+            OnHit();
             _health -= damage;
             Utils.UpdateBar(_healthBar, Mathf.Max(0f, _health / _maxHealth));
 
@@ -67,7 +70,14 @@ namespace Main.Buildings
             }
         }
 
+        protected virtual void OnHit() { }
+
         protected virtual void OnDeath() { }
+
+        protected float GetHealth()
+        {
+            return  Mathf.Round(_health * 100f) / 100f;
+        }
 
         public virtual void EnterPlacementMode()
         {
