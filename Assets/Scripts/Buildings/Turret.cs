@@ -23,11 +23,13 @@ namespace Main.Buildings
         {
             base.Awake();
 
-            rangeFieldRenderer.gameObject.SetActive(true);
+            //rangeFieldRenderer.gameObject.SetActive(true);
             rangeFieldRenderer.size = new Vector2(range * 2, range * 2);
         }
         private void Update()
         {
+            if (_inPlacementMode || target == null) return;
+
             _aimDirection = (target.position - transform.position).normalized;
             _aimAngle = Mathf.Atan2(_aimDirection.y, _aimDirection.x) * Mathf.Rad2Deg;
 
@@ -51,6 +53,8 @@ namespace Main.Buildings
 
         public override void OnCollect(Inventory inventory)
         {
+            Destroy(gameObject);
+
             Popup.Create(transform.position, "Collected Turret", Color.black);
             base.OnCollect(inventory);
         }
@@ -60,6 +64,16 @@ namespace Main.Buildings
 
         }
 
+        public override void EnterPlacementMode()
+        {
+            rangeFieldRenderer.gameObject.SetActive(true);
+            base.EnterPlacementMode();
+        }
 
+        public override void ExitPlacementMode()
+        {
+            rangeFieldRenderer.gameObject.SetActive(false);
+            base.ExitPlacementMode();
+        }
     }
 }

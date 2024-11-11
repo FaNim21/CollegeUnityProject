@@ -16,6 +16,7 @@ namespace Main.Player
         [Header("Components")]
         public GameObject body;
         public CameraController cameraController;
+        public MapManager mapManager;
         public CanvasHandle canvasHandle;
         public Inventory inventory;
         public Transform shootingOffset;
@@ -49,11 +50,11 @@ namespace Main.Player
             Vector2 newPosition = _rb.position + data.speed * Time.fixedDeltaTime * _inputDirection;
             Vector2 adjustedDirection = _inputDirection;
 
-            if (!cameraController.IsInBounds(new Vector2(newPosition.x, _rb.position.y)))
+            if (!mapManager.IsInBounds(new Vector2(newPosition.x, _rb.position.y), cameraController.boundsOffset))
             {
                 adjustedDirection.x = 0;
             }
-            if (!cameraController.IsInBounds(new Vector2(_rb.position.x, newPosition.y)))
+            if (!mapManager.IsInBounds(new Vector2(_rb.position.x, newPosition.y), cameraController.boundsOffset))
             {
                 adjustedDirection.y = 0;
             }

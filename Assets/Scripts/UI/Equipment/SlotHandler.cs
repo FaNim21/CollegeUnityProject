@@ -34,12 +34,14 @@ namespace Main.UI.Equipment
             data.itemData = item;
             UpdateAmount(amount);
         }
-        public void UpdateAmount(int amount = 0)
+        public bool UpdateAmount(int amount = 0, bool fromStructureGUI = true)
         {
             data.quantity += amount;
 
-            if (!_slot.IsCorrectWindowOpened(structureGuid)) return;
+            if (!_slot.IsCorrectWindowOpened(structureGuid) && fromStructureGUI) return data.itemData != null;
             _slot.UpdateSlot();
+
+            return data.itemData != null;
         }
 
         public void Swap(SlotHandler slotHandler)

@@ -18,8 +18,7 @@ namespace Main.UI.Equipment
             {
                 int choice = int.Parse(context.control.name) - 1;
 
-                //TODO: 1 Tu musi byc wiadome to czy jak myszka jest na slocie to zeby zrobic zamiane, a po za slotem zaznaczanie przez cyfre
-                if (player.canvasHandle.isPointerOverGameObject)
+                if (player.canvasHandle.isPointerOverGameObject && !_inventory.builder.IsInBuildMode())
                 {
                     if (_inventory.dragAndDrop.gameObject.activeSelf) return;
 

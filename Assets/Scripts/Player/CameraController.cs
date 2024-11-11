@@ -8,8 +8,8 @@ namespace Main.Player
         public MapManager mapManager;
 
         [Header("Values")]
+        public Vector2 boundsOffset;
         [SerializeField] private Vector2 zoomSize;
-        [SerializeField] private Vector2 boundsOffset;
         [SerializeField] private Vector2 _offset;
 
         [Header("Debug")]
@@ -61,14 +61,7 @@ namespace Main.Player
             Gizmos.DrawWireCube(Vector2.zero, new Vector2(_boundsLength, _boundsLength));
         }
 
-        public bool IsInBounds(Vector2 position)
-        {
-            return position.x + boundsOffset.x < _halfBoundsLength && 
-                   position.x - boundsOffset.x > -_halfBoundsLength &&
-                   position.y + boundsOffset.y < _halfBoundsLength &&
-                   position.y - boundsOffset.y > -_halfBoundsLength;
-        }
-
+        
         public void ChangeTarget(Transform newTarget)
         {
             target = newTarget;

@@ -87,6 +87,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "BuildMode",
+                    "type": "Button",
+                    "id": "5a8e08f9-b9cc-4e38-9f26-8a668bf41898",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Scroll",
                     "type": "Value",
                     "id": "0fd88fdf-fce7-4017-b8b7-57127275e82e",
@@ -248,6 +257,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftMousePressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fcc637a-d77f-4170-8268-98a76ca35deb",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuildMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

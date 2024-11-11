@@ -64,7 +64,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &4329948937441160300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,11 +77,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c50dba1f25d7804f81cd9f976e024ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: {x: 3, y: 3}
+  trueSize: {x: 1, y: 1}
+  halfSize: {x: 0, y: 0}
+  placementPosition: {x: 1, y: 1}
   data: {fileID: 11400000, guid: 6b9a9781ebe54d841bdcf7edb3dce32e, type: 2}
   itemData: {fileID: 11400000, guid: 69f671f5ea8c8b44d85552a0a5378f83, type: 2}
   _healthBar: {fileID: 4042660178258850483}
+  _collider: {fileID: 7550110095418094169}
+  _spriteRenderer: {fileID: 4808555332482877663}
   _health: 0
   _died: 0
+  _inPlacementMode: 0
   _canvas: {fileID: 7402693315825555305}
   _fuelAmountText: {fileID: 9172866426746666286}
   _fuelUseBar: {fileID: 1454422339784414653}

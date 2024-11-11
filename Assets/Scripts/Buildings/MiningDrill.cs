@@ -59,12 +59,11 @@ namespace Main.Buildings
             _canvas.worldCamera = Camera.main;
             _mapManager = GameManager.instance.mapManager;
             _player = GameManager.instance.playerController;
-            StartCoroutine(PlaceDrill()); //TEMP
         }
 
         private void Update()
         {
-            if (!_canMine) return;
+            if (!_canMine || _inPlacementMode) return;
 
             UseFuel();
             Mine();
@@ -102,6 +101,12 @@ namespace Main.Buildings
                 _timer = 0;
                 outputHandler.CreateItem(outputItem, 1);
             }
+        }
+
+        public override void ExitPlacementMode()
+        {
+            base.ExitPlacementMode();
+            StartCoroutine(PlaceDrill());
         }
 
         public IEnumerator PlaceDrill()

@@ -26,6 +26,7 @@ namespace Main.UI.Equipment
 
         [Header("Data")]
         public SlotData _data;
+        private InventorySlot _originSlot; 
 
         public SlotData Data { get => _data; set => _data = value; }
 
@@ -34,9 +35,11 @@ namespace Main.UI.Equipment
         {
 
         }
-        public void SetUp(ItemData data, int quantity)
+        public void SetUp(ItemData data, int quantity, InventorySlot originSlot)
         {
+            _originSlot = originSlot;
             _data = new SlotData(data, quantity);
+
             UpdateVisual();
             gameObject.SetActive(true);
         }
@@ -168,6 +171,16 @@ namespace Main.UI.Equipment
 
             _data.itemData = null;
             _data.quantity = 0;
+        }
+
+        public void Cancel()
+        {
+            if (_originSlot == null) return;
+
+            if (_originSlot.IsEmpty())
+                DropOnSlot(_originSlot);
+            else 
+                FillSlot(_originSlot);
         }
     }
 }

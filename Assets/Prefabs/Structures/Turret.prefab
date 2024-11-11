@@ -149,7 +149,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &2587179821382295906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,11 +162,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe263f5b2b84da04582359ab8c13ca74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: {x: 2, y: 2}
+  trueSize: {x: 0.5, y: 0.5}
+  halfSize: {x: 0, y: 0}
+  placementPosition: {x: 0.5, y: 0.5}
   data: {fileID: 11400000, guid: bb1e0469572915e4eaa948124d6f89bd, type: 2}
   itemData: {fileID: 11400000, guid: 292354986bb89604e8dda934c135e87e, type: 2}
   _healthBar: {fileID: 5452661621795131433}
+  _collider: {fileID: 3334157053953637814}
+  _spriteRenderer: {fileID: 6769861457665626072}
   _health: 0
   _died: 0
+  _inPlacementMode: 0
   rangeFieldRenderer: {fileID: 6164520960178061626}
   target: {fileID: 0}
   barrel: {fileID: 1013703522130956718}
@@ -344,7 +351,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.25
+  m_Radius: 1
 --- !u!1 &5260040511494352070
 GameObject:
   m_ObjectHideFlags: 0

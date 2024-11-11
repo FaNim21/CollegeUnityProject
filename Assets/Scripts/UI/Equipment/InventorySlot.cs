@@ -22,7 +22,7 @@ namespace Main.UI.Equipment
         [SerializeField] private GameObject _selectedImage;
 
         [Header("Data")]
-        [SerializeField] private SlotHandler slotHandler;
+        public SlotHandler slotHandler;  //tak mi tez sie nie podoba ze to jest public xd ale mam malo czasu na zabawe przy bezpieczenstwie i czytelnosci kodu :d
 
         public SlotData Data { get => slotHandler.data; set => slotHandler.data = value; }
 
@@ -55,11 +55,11 @@ namespace Main.UI.Equipment
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
-            Utils.Log("begni drag");
             ExecuteEvents.Execute(gameObject, eventData, ExecuteEvents.pointerClickHandler);
         }
         public override void OnPointerClick(PointerEventData eventData)
         {
+            if (_inventory.builder.IsInBuildMode()) return;
             if (eventData.pointerEnter == null || IsEmpty()) return;
 
             if (Keyboard.current.leftShiftKey.isPressed && eventData.button == PointerEventData.InputButton.Left)
@@ -120,7 +120,7 @@ namespace Main.UI.Equipment
 
         private void StartDragAndDrop(ItemData data, int quantity, bool clearing = true)
         {
-            _inventory.dragAndDrop.SetUp(data, quantity);
+            _inventory.dragAndDrop.SetUp(data, quantity, this);
             if (clearing) DeepClear();
             _inventory.dragAndDrop.StartSimulateDrag();
         }

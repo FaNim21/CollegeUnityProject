@@ -21,6 +21,7 @@ namespace Main.Player
         private CameraController _cameraController;
         private CanvasHandle _canvasHandle;
         private MapManager _mapManager;
+        private StructureBuilder _structureBuilder;
         private Inventory _inventory;
         private Camera _camera;
 
@@ -30,6 +31,7 @@ namespace Main.Player
         [SerializeField, ReadOnly] private ObtainType _obtainType;
         [SerializeField, ReadOnly] private Structure _obtainingStructure;
         [SerializeField, ReadOnly] private OreType _obtainingOre;
+        [SerializeField, ReadOnly] private Vector3Int _obtainingOrePosition;
         [SerializeField, ReadOnly] private bool _isObtaining;
         [SerializeField, ReadOnly] private float _obtainingTimeAmount;
         [SerializeField, ReadOnly] private float _obtainingTimer;
@@ -43,6 +45,7 @@ namespace Main.Player
             _cameraController = _camera.GetComponent<CameraController>();
             _mapManager = GameManager.instance.mapManager;
             _inventory = _player.inventory;
+            _structureBuilder = _inventory.builder;
         }
         private void Update()
         {
@@ -50,6 +53,25 @@ namespace Main.Player
 
             _obtainingTimer += Time.deltaTime;
             obtainingSlider.value = _obtainingTimer / _obtainingTimeAmount; 
+
+            if (_obtainType == ObtainType.Structure)
+            {
+                var structure = GetStructureOnMouse();
+                if (structure == null || !structure.Equals(_obtainingStructure))
+                {
+                    RestartObtaining();
+                }
+            }
+            else if (_obtainType == ObtainType.Ore)
+            {
+                Vector2 mousePosition = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+                var currentTilePosition = _mapManager.GetTilePosition(mousePosition);
+                if (currentTilePosition != _obtainingOrePosition)
+                {
+                    Utils.Log($"ore1: {_obtainingOrePosition} -- ore2: {currentTilePosition}");
+                    RestartObtaining();
+                }
+            }
 
             if (_obtainingTimer >= _obtainingTimeAmount)
             {
@@ -62,6 +84,7 @@ namespace Main.Player
             if (_obtainType == ObtainType.Structure)
             {
                 _obtainingStructure.OnCollect(_inventory);
+                _mapManager.RemoveStructure(_obtainingStructure);
             }
             else if (_obtainType == ObtainType.Ore)
             {
@@ -69,14 +92,13 @@ namespace Main.Player
                 _inventory.AddToInventory(data, 1);
             }
 
-            string obtainItemName = _obtainType == ObtainType.Structure ? _obtainingStructure.name : _obtainingOre.ToString();
-            Utils.Log($"Obtained item {_obtainType} - {obtainItemName}");
             RestartObtaining();
         }
 
         public void OnInventory(InputAction.CallbackContext callback)
         {
             if (callback.phase != InputActionPhase.Started) return;
+            if (_structureBuilder.IsInBuildMode()) return;
 
             _canvasHandle.ToggleWindow<Inventory>();
         }
@@ -85,6 +107,15 @@ namespace Main.Player
         {
             if (callback.phase != InputActionPhase.Performed) return;
             if (_canvasHandle.isPointerOverGameObject) return;
+
+            if (_structureBuilder.IsPlacing() && _structureBuilder.IsInBuildMode())
+            {
+                //TODO: 0 check for collisiion with other structures
+                _structureBuilder.Place();
+                return;
+            }
+
+            if (_structureBuilder.IsInBuildMode()) return;
 
             var structure = GetStructureOnMouse();
             if (structure == null) return;
@@ -95,6 +126,7 @@ namespace Main.Player
         public void OnRightClick(InputAction.CallbackContext callback)
         {
             if (_player.canvasHandle.isPointerOverGameObject) return;
+            if (_structureBuilder.IsInBuildMode()) return;
 
             if (callback.phase == InputActionPhase.Started)
             {
@@ -118,6 +150,7 @@ namespace Main.Player
                 {
                     _obtainType = ObtainType.Ore;
                     _obtainingOre = ore;
+                    _obtainingOrePosition = _mapManager.GetTilePosition(mousePosition);
                     _obtainingTimeAmount = 2.5f;
 
                     StartObtaining();
@@ -125,8 +158,7 @@ namespace Main.Player
                     return;
                 }
 
-                //TODO: 0 Zrobic niszczenie ze zbieraniem zawartosci
-                Utils.Log("Coulnd obtain anything");
+                Utils.Log("Couldnt obtain anything");
             }
             else if (callback.phase == InputActionPhase.Canceled)
             {
@@ -141,6 +173,20 @@ namespace Main.Player
 
             float value = callback.ReadValue<float>();
             _cameraController.ChangeZoom(value);
+        }
+
+        public void OnChangeBuildMode(InputAction.CallbackContext callback)
+        {
+            if (callback.phase != InputActionPhase.Performed) return;
+
+            _structureBuilder.SwitchBuildMode();
+
+            if (_structureBuilder.IsInBuildMode())
+            {
+                _inventory.dragAndDrop.Cancel();
+                _inventory.CloseWindow();
+                RestartObtaining();
+            }
         }
 
         private Structure GetStructureOnMouse()

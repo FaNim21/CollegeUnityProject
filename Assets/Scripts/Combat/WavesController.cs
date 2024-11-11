@@ -1,18 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WavesController : MonoBehaviour
+namespace Main.Combat
 {
-    // Start is called before the first frame update
-    void Start()
+    public class WavesController : MonoBehaviour
     {
-        
-    }
+        private GameManager gameManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public List<Enemy> enemies = new();
+
+
+        private void Start()
+        {
+            gameManager = GetComponent<GameManager>();
+        }
+
+        private void Update()
+        {
+            
+        }
+
+        private void SpawnEnemy()
+        {
+
+        }
     }
 }

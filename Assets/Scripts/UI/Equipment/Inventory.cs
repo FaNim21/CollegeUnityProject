@@ -91,17 +91,19 @@ namespace Main.UI.Equipment
         public void SelectSlot(int choice)
         {
             if (_selectedSlot != null)
+            {
                 _selectedSlot.UnSelect();
+                builder.Cancel();
+            }
 
             _selectedSlot = slots[choice];
             _selectedSlot.Select();
 
+            if (_selectedSlot.ItemData == null) return;
+
             if (_selectedSlot.ItemData.type == ItemType.Structure)
             {
-                //TODO: 0 tutaj uwzglednic fakt ze jak przedmiot jest struktura to wtedy wchodzi w tryb budowania
-                //i respi ta strukture
-
-
+                builder.Initialize(_selectedSlot.slotHandler);
             }
         }
 
