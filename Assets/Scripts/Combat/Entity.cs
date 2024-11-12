@@ -9,12 +9,18 @@ namespace Main.Combat
     {
         public EntityData data;
         public Transform healthBar;
+        [SerializeField] private CircleCollider2D _collider;
 
         [SerializeField, ReadOnly] private float _health;
         [SerializeField, ReadOnly] private bool _died;
+        [SerializeField, ReadOnly] protected bool _isInvulnerable;
         [SerializeField, ReadOnly] private Vector2 _spawnPosition;
 
+        public Vector3 Position => transform.position;
+        public float Size => _collider.radius;
         public bool Died { get => _died; set => _died = value; }
+
+
 
         protected virtual void Awake()
         {
@@ -24,7 +30,7 @@ namespace Main.Combat
 
         public void TakeDamage(int damage)
         {
-            if (damage <= 0 || _died) return;
+            if (damage <= 0 || _died || _isInvulnerable) return;
 
             Utils.Log($"{gameObject.name} otrzymal damage {damage}");
 

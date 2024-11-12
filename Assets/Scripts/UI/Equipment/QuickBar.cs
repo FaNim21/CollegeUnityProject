@@ -14,6 +14,8 @@ namespace Main.UI.Equipment
 
         public void SetSelection(InputAction.CallbackContext context)
         {
+            if (player.canvasHandle.isCanvasEnabled) return;
+
             if (context.phase == InputActionPhase.Performed)
             {
                 int choice = int.Parse(context.control.name) - 1;

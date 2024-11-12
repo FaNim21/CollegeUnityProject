@@ -9,6 +9,8 @@ namespace Main.Buildings
 {
     public abstract class Structure : MonoBehaviour, IDamageable
     {
+        protected MapManager _mapManager;
+
         public Guid guid;
         public Vector2 size;
         public Vector2 trueSize;
@@ -32,6 +34,8 @@ namespace Main.Buildings
 
         private Color _previousColor;
 
+        public Vector3 Position => transform.position;
+        public float Size => size.x;
         public bool Died { get => _died; set => _died = value; }
 
         private int _maxHealth;
@@ -45,6 +49,11 @@ namespace Main.Buildings
 
             _maxHealth = data.maxHealth;
             _health = _maxHealth;
+        }
+
+        protected virtual void Start()
+        {
+            _mapManager = GameManager.instance.mapManager;
         }
 
         public void OnDrawGizmos()
@@ -72,7 +81,11 @@ namespace Main.Buildings
 
         protected virtual void OnHit() { }
 
-        protected virtual void OnDeath() { }
+        protected virtual void OnDeath()
+        {
+            _mapManager.RemoveStructure(this);
+            Destroy(gameObject);
+        }
 
         protected float GetHealth()
         {

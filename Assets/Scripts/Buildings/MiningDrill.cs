@@ -1,4 +1,3 @@
-using Main;
 using Main.Datas;
 using Main.Misc;
 using Main.Player;
@@ -14,13 +13,16 @@ namespace Main.Buildings
     public class MiningDrill : Structure
     {
         private PlayerController _player;
-        private MapManager _mapManager;
 
         [Header("Components")]
         [SerializeField] private Canvas _canvas;
         [SerializeField] private TextMeshProUGUI _fuelAmountText;
         [SerializeField] private Transform _fuelUseBar;
         [SerializeField] private Transform _progressBar;
+
+        [SerializeField] private GameObject _notOnOreInfo;
+        [SerializeField] private GameObject _emptyFuelInfo;
+        [SerializeField] private GameObject _fullOutputInfo;
 
         [Header("Values")]
         public ItemData outputItem;
@@ -54,10 +56,10 @@ namespace Main.Buildings
             outputHandler.structureGuid = guid;
             fuelHandler.structureGuid = guid;
         }
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             _canvas.worldCamera = Camera.main;
-            _mapManager = GameManager.instance.mapManager;
             _player = GameManager.instance.playerController;
         }
 
@@ -74,6 +76,7 @@ namespace Main.Buildings
             if (_isFuelUsed || fuelHandler.data.itemData == null) return;
             if (fuelHandler.data.itemData.type != ItemType.Fuel || fuelHandler.data.quantity == 0) return;
 
+            if (_emptyFuelInfo.activeSelf) _emptyFuelInfo.SetActive(false);
             _fuelValue = fuelHandler.data.itemData.fuelPower;
             _fuelValueMax = fuelHandler.data.itemData.fuelPower;
             _isFuelUsed = true;
@@ -84,11 +87,18 @@ namespace Main.Buildings
         {
             if (_fuelValue <= 0f)
             {
+                _emptyFuelInfo.SetActive(true);
                 _isFuelUsed = false;
                 return;
             }
 
-            if (!_isMining || outputHandler.data.quantity >= _maxStock) return;
+            if (!_isMining) return;
+            if (outputHandler.data.quantity >= _maxStock)
+            {
+                _fullOutputInfo.SetActive(true);
+                return;
+            }
+            if (_fullOutputInfo.activeSelf) _fullOutputInfo.SetActive(false);
 
             _timer += Time.deltaTime;
             _fuelValue -= Time.deltaTime;
@@ -112,7 +122,11 @@ namespace Main.Buildings
         public IEnumerator PlaceDrill()
         {
             _ore = _mapManager.GetOreOnTile(transform.position);
-            if (_ore == OreType.None) yield break;
+            if (_ore == OreType.None)
+            {
+                _notOnOreInfo.SetActive(true);
+                yield break;
+            }
 
             ItemData data = GameManager.instance.GetItemData(_ore.ToString());
             outputItem = data;

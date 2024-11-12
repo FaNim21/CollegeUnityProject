@@ -168,6 +168,7 @@ MonoBehaviour:
   placementPosition: {x: 0.5, y: 0.5}
   data: {fileID: 11400000, guid: bb1e0469572915e4eaa948124d6f89bd, type: 2}
   itemData: {fileID: 11400000, guid: 292354986bb89604e8dda934c135e87e, type: 2}
+  canBeObtained: 1
   _healthBar: {fileID: 5452661621795131433}
   _collider: {fileID: 3334157053953637814}
   _spriteRenderer: {fileID: 6769861457665626072}
@@ -175,11 +176,16 @@ MonoBehaviour:
   _died: 0
   _inPlacementMode: 0
   rangeFieldRenderer: {fileID: 6164520960178061626}
-  target: {fileID: 0}
   barrel: {fileID: 1013703522130956718}
+  _bullet: {fileID: 7833696036939333958, guid: b567923f2305599468b310a9c0705b9f, type: 3}
   range: 9
+  layerMask: 11
+  damage: 12
+  projectileSpeed: 15
+  shootingFrequency: 0.5
   _aimDirection: {x: 0, y: 0}
   _aimAngle: 0
+  _shootingTimer: 0
 --- !u!1 &3116954302045444399
 GameObject:
   m_ObjectHideFlags: 0

@@ -97,6 +97,7 @@ namespace Main.Player
 
         public void OnInventory(InputAction.CallbackContext callback)
         {
+            if (_canvasHandle.isCanvasEnabled) return;
             if (callback.phase != InputActionPhase.Started) return;
             if (_structureBuilder.IsInBuildMode()) return;
 
@@ -105,6 +106,7 @@ namespace Main.Player
 
         public void OnLeftClick(InputAction.CallbackContext callback)
         {
+            if (_canvasHandle.isCanvasEnabled) return;
             if (callback.phase != InputActionPhase.Performed) return;
             if (_canvasHandle.isPointerOverGameObject) return;
 
@@ -125,6 +127,7 @@ namespace Main.Player
 
         public void OnRightClick(InputAction.CallbackContext callback)
         {
+            if (_canvasHandle.isCanvasEnabled) return;
             if (_player.canvasHandle.isPointerOverGameObject) return;
             if (_structureBuilder.IsInBuildMode()) return;
 
@@ -169,6 +172,7 @@ namespace Main.Player
 
         public void OnScroll(InputAction.CallbackContext callback)
         {
+            if (_canvasHandle.isCanvasEnabled) return;
             if (callback.phase == InputActionPhase.Started) return;
 
             float value = callback.ReadValue<float>();
@@ -177,6 +181,7 @@ namespace Main.Player
 
         public void OnChangeBuildMode(InputAction.CallbackContext callback)
         {
+            if (_canvasHandle.isCanvasEnabled) return;
             if (callback.phase != InputActionPhase.Performed) return;
 
             _structureBuilder.SwitchBuildMode();
@@ -189,12 +194,20 @@ namespace Main.Player
             }
         }
 
+        public void OnEscape(InputAction.CallbackContext callback)
+        {
+            if (callback.phase != InputActionPhase.Performed) return;
+
+            _canvasHandle.ToggleWindow<PauseMenu>();
+        }
+
         private Structure GetStructureOnMouse()
         {
             var raycastHit = Physics2D.GetRayIntersection(_camera.ScreenPointToRay(Mouse.current.position.ReadValue()));
             if (!raycastHit.collider) return null;
 
             var structure = raycastHit.collider.GetComponentInParent<Structure>();
+            if (structure == null) return null;
             if (!structure.canBeObtained) return null;
             return structure;
         }

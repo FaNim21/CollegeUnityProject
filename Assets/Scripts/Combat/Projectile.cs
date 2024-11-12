@@ -11,7 +11,7 @@ namespace Main.Combat
 
         private Vector2 velocity;
 
-        public void Setup(int layerMask, Vector2 velocity, float speed, int damage)
+        public void Setup(int layerMask, Vector2 velocity, float speed, int damage, float lifeTime = 1f)
         {
             gameObject.layer = layerMask;
             gameObject.transform.GetChild(0).gameObject.layer = layerMask;
@@ -20,7 +20,7 @@ namespace Main.Combat
             this.speed = speed;
             this.damage = damage;
 
-            Destroy(gameObject, 3f);
+            Destroy(gameObject, lifeTime);
         }
 
         private void FixedUpdate()

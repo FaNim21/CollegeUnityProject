@@ -1,5 +1,5 @@
 using Main.Buildings;
-using Main.Misc;
+using Main.Combat;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +16,8 @@ public class MapManager : MonoBehaviour
 {
     [SerializeField] private Tilemap map;
 
+    [SerializeField] private Entity _player;
+    [SerializeField] private Structure _mainBase;
     [SerializeField] private List<Structure> _placedStructures = new();
 
     public int mapSize;
@@ -36,7 +38,7 @@ public class MapManager : MonoBehaviour
         _halfMapSize = mapSize / 2;
     }
 
-    public OreType GetOreOnTile(Vector2 position) 
+    public OreType GetOreOnTile(Vector2 position)
     {
         Vector3Int gridPosition = map.WorldToCell(position);
         TileBase tile = map.GetTile(gridPosition);
@@ -74,34 +76,48 @@ public class MapManager : MonoBehaviour
             var current = _placedStructures[i];
             Vector2 position = current.transform.position;
 
-            if (leftTop.x <= position.x + current.halfSize.x &&
-                leftTop.x >= position.x - current.halfSize.x &&
-                leftTop.y <= position.y + current.halfSize.y &&
-                leftTop.y >= position.y - current.halfSize.y)
-            {
+            if (CheckCorners(position, current))
                 return true;
-            }
-            if (leftBottom.x <= position.x + current.halfSize.x &&
-                leftBottom.x >= position.x - current.halfSize.x &&
-                leftBottom.y <= position.y + current.halfSize.y &&
-                leftBottom.y >= position.y - current.halfSize.y)
-            {
+        }
+
+        if (_mainBase != null)
+        {
+            if (CheckCorners(_mainBase.transform.position, _mainBase))
                 return true;
-            }
-            if (rightTop.x <= position.x + current.halfSize.x &&
-                rightTop.x >= position.x - current.halfSize.x &&
-                rightTop.y <= position.y + current.halfSize.y &&
-                rightTop.y >= position.y - current.halfSize.y)
-            {
-                return true;
-            }
-            if (rightBottom.x <= position.x + current.halfSize.x &&
-                rightBottom.x >= position.x - current.halfSize.x &&
-                rightBottom.y <= position.y + current.halfSize.y &&
-                rightBottom.y >= position.y - current.halfSize.y)
-            {
-                return true;
-            }
+        }
+
+        return false;
+    }
+
+    private bool CheckCorners(Vector2 position, Structure current)
+    {
+        if (leftTop.x <= position.x + current.halfSize.x &&
+            leftTop.x >= position.x - current.halfSize.x &&
+            leftTop.y <= position.y + current.halfSize.y &&
+            leftTop.y >= position.y - current.halfSize.y)
+        {
+            return true;
+        }
+        if (leftBottom.x <= position.x + current.halfSize.x &&
+            leftBottom.x >= position.x - current.halfSize.x &&
+            leftBottom.y <= position.y + current.halfSize.y &&
+            leftBottom.y >= position.y - current.halfSize.y)
+        {
+            return true;
+        }
+        if (rightTop.x <= position.x + current.halfSize.x &&
+            rightTop.x >= position.x - current.halfSize.x &&
+            rightTop.y <= position.y + current.halfSize.y &&
+            rightTop.y >= position.y - current.halfSize.y)
+        {
+            return true;
+        }
+        if (rightBottom.x <= position.x + current.halfSize.x &&
+            rightBottom.x >= position.x - current.halfSize.x &&
+            rightBottom.y <= position.y + current.halfSize.y &&
+            rightBottom.y >= position.y - current.halfSize.y)
+        {
+            return true;
         }
 
         return false;
@@ -144,5 +160,43 @@ public class MapManager : MonoBehaviour
                position.x - offset.x > -_halfMapSize &&
                position.y + offset.y < _halfMapSize &&
                position.y - offset.y > -_halfMapSize;
+    }
+
+    public IDamageable GetClosestStructure(Vector3 position, IDamageable exclude, bool mainBaseFocus = false)
+    {
+        if (mainBaseFocus) return _mainBase;
+
+        IDamageable closest = _player;
+        float closestDistance = (_player.Position - position).sqrMagnitude;
+
+        if (closest == exclude || _player.Died)
+        {
+            closest = null;
+            closestDistance = int.MaxValue;
+        }
+
+        for (int i = 0; i < _placedStructures.Count; i++)
+        {
+            var current = _placedStructures[i];
+            if (((IDamageable)current) == exclude) continue;
+
+            float distance = (current.Position - position).sqrMagnitude;
+            if (distance < closestDistance)
+            {
+                closest = current;
+                closestDistance = distance;
+            }
+        }
+
+        if (_mainBase != null)
+        {
+            float mainBaseDistance = (_mainBase.Position - position).sqrMagnitude;
+            if (mainBaseDistance < closestDistance)
+            {
+                closest = _mainBase;
+            }
+        }
+
+        return closest;
     }
 }

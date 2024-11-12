@@ -23,6 +23,9 @@ namespace Main.Player
 
         [Header("Values")]
         public int layerMask;
+        public int projectileSpeed;
+        public int projectileLifetime;
+        public int damage;
 
         [Header("Debug")]
         [SerializeField, ReadOnly] private Vector2 _inputDirection;
@@ -39,6 +42,8 @@ namespace Main.Player
         }
         private void Update()
         {
+            if (Died) return;
+
             _mousePosition = Utils.GetMouseWorldPosition();
             _aimDirection = (_mousePosition - (Vector2)shootingOffset.position).normalized;
             _aimAngle = Mathf.Atan2(_aimDirection.y, _aimDirection.x) * Mathf.Rad2Deg;
@@ -47,6 +52,8 @@ namespace Main.Player
         }
         private void FixedUpdate()
         {
+            if (Died) return;
+
             Vector2 newPosition = _rb.position + data.speed * Time.fixedDeltaTime * _inputDirection;
             Vector2 adjustedDirection = _inputDirection;
 
@@ -67,7 +74,7 @@ namespace Main.Player
             if (canvasHandle.isCanvasEnabled || canvasHandle.isPointerOverGameObject || Died) return;
 
             var projectile = Instantiate(GameManager.instance.projectile, shootingOffset.position, Quaternion.Euler(0, 0, _aimAngle));
-            projectile.Setup(layerMask, Quaternion.Euler(0, 0, _aimAngle) * Vector2.right, 10, 10);
+            projectile.Setup(layerMask, Quaternion.Euler(0, 0, _aimAngle) * Vector2.right, projectileSpeed, damage, projectileLifetime);
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -80,7 +87,10 @@ namespace Main.Player
             body.SetActive(false);
             yield return new WaitForSeconds(3f);
             Restart();
+            _isInvulnerable = true;
             body.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            _isInvulnerable = false;
         }
     }
 }

@@ -227,7 +227,7 @@ namespace Main.UI.Equipment
         {
             if (!IsActive)
             {
-                player.canvasHandle.CloseUIWindow(false);
+                //player.canvasHandle.CloseUIWindow(false);
                 OpenInventory();
                 return;
             }

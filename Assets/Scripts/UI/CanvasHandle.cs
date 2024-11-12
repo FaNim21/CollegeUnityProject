@@ -15,7 +15,6 @@ namespace Main.UI
         public Canvas canvas;
         public PlayerController playerController;
         public CameraController cameraController;
-        //public MonitorsManager graphsManager;
 
         [Header("Layers")]
         public int worldItemsLayer;
@@ -52,7 +51,7 @@ namespace Main.UI
                     return;
                 }
             }
-            //if (forceMainMenu) ToggleWindow<MainMenu>();
+            if (forceMainMenu) ToggleWindow<PauseMenu>();
         }
 
         public void OpenWindow<T>()
