@@ -154,7 +154,7 @@ namespace Main.Combat
 
         public void UpdateTimeToWave(string time)
         {
-            _timeToNextWaveText.SetText($"Next in: {time}");
+            _timeToNextWaveText.SetText($"Spawns in: {time}");
         }
         public void UpdateDirectionText(string direction)
         {

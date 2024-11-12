@@ -1,19 +1,26 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+# if UNITY_EDITOR
+using UnityEngine;
+using UnityEngine.SceneManagement;
+# endif
 
 namespace Main.UI
 {
-    public class MainMenu : MonoBehaviour, IWindowControl
+    public class MainMenu : MonoBehaviour
     {
-        public bool IsActive => true;
 
-        public void CloseWindow()
+        public void Play()
         {
-            throw new System.NotImplementedException();
+            SceneManager.LoadScene(1);
         }
 
-        public void OpenWindow()
+        public void Quit()
         {
-            throw new System.NotImplementedException();
+            Application.Quit();
+
+# if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+# endif
         }
     }
 }
