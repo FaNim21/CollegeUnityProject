@@ -28,6 +28,7 @@ namespace Main.Player
         public Slider obtainingSlider;
 
         [Header("Debug")]
+        [SerializeField, ReadOnly] private bool _blockInput;
         [SerializeField, ReadOnly] private ObtainType _obtainType;
         [SerializeField, ReadOnly] private Structure _obtainingStructure;
         [SerializeField, ReadOnly] private OreType _obtainingOre;
@@ -196,6 +197,7 @@ namespace Main.Player
 
         public void OnEscape(InputAction.CallbackContext callback)
         {
+            if (_blockInput) return;
             if (callback.phase != InputActionPhase.Performed) return;
 
             _canvasHandle.ToggleWindow<PauseMenu>();
@@ -210,6 +212,11 @@ namespace Main.Player
             if (structure == null) return null;
             if (!structure.canBeObtained) return null;
             return structure;
+        }
+
+        public void SetBlockForInput()
+        {
+            _blockInput = true;
         }
 
         private void StartObtaining()

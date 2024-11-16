@@ -19,4 +19,5 @@ MonoBehaviour:
   description: Ore
   icon: {fileID: 8033092973025764044, guid: df6544d5d59201042acc700b8ee4ce8c, type: 3}
   maxStackSize: 100
-  fuelPower: 12
+  fuelPower: 16
+  structure: {fileID: 0}

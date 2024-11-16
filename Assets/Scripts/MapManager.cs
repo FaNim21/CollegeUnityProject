@@ -2,6 +2,7 @@ using Main.Buildings;
 using Main.Combat;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,6 +21,8 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Structure _mainBase;
     [SerializeField] private List<Structure> _placedStructures = new();
 
+    [SerializeField] private TextMeshProUGUI _placedStructuresText;
+
     public int mapSize;
 
     public Vector2 halfSize;
@@ -36,6 +39,7 @@ public class MapManager : MonoBehaviour
     private void Awake()
     {
         _halfMapSize = mapSize / 2;
+        UpdateStructuresCountText();
     }
 
     public OreType GetOreOnTile(Vector2 position)
@@ -57,10 +61,17 @@ public class MapManager : MonoBehaviour
     public void AddStructure(Structure structure)
     {
         _placedStructures.Add(structure);
+        UpdateStructuresCountText();
     }
     public void RemoveStructure(Structure structure)
     {
         _placedStructures.Remove(structure);
+        UpdateStructuresCountText();
+    }
+
+    public void UpdateStructuresCountText()
+    {
+        _placedStructuresText.SetText($"Placed Structures: {_placedStructures.Count}");
     }
 
     public bool CheckForStructure(Vector2 mousePosition, Vector2 checkSize)

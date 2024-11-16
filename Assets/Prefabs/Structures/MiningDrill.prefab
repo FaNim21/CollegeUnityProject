@@ -587,7 +587,7 @@ MonoBehaviour:
       itemData: {fileID: 0}
       quantity: 0
       slotIndex: 0
-  _maxStock: 5
+  _maxStock: 15
   _mineTime: 4
   _ore: 0
   _amount: 0

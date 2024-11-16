@@ -46,14 +46,15 @@ namespace Main.UI.Equipment
 
         [Header("Objects")]
         public GameObject background;
-        public GameObject craftingBackground;
+        public CraftingWindow crafting;
         public Transform sidePanelParent;
         private List<ISideInventory> _sideInventories = new();
 
         [Header("Slots")]
         public int slotCount;
         public int quickbarSlotsCount = 5;
-        public List<InventorySlot> slots = new();
+        [SerializeField] private List<InventorySlot> _slotsList = new();
+        public InventorySlot[] slots;
 
         [Header("Debug")]
         [SerializeField, ReadOnly] private InventorySlot _selectedSlot;
@@ -80,12 +81,48 @@ namespace Main.UI.Equipment
             {
                 var slot = Instantiate(GameManager.instance.inventorySlot, background.transform);
                 slot.index = i;
-                slots.Add(slot);
+                _slotsList.Add(slot);
+            }
+
+            slots = new InventorySlot[_slotsList.Count];
+            for (int i = 0; i < slots.Length; i++)
+            {
+                slots[i] = _slotsList[i];
             }
         }
         private void Start()
         {
             dragAndDrop.Initialize();
+        }
+
+        //its bad, but i need fast solutions
+        public int GetAmount(ItemData data)
+        {
+            int amount = 0;
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var current = slots[i];
+                if (current.ItemData != null && current.ItemData == data)
+                {
+                    amount += current.ItemQuantity;
+                }
+            }
+            return amount;
+        }
+        public void RemoveAmount(ItemData data, int amount)
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var current = slots[i];
+                if (amount == 0) return;
+                if (current.ItemData != null && current.ItemData == data)
+                {
+                    int removable = Math.Min(current.ItemQuantity, amount);
+                    amount -= removable;
+
+                    current.UpdateAmount(-removable);
+                }
+            }
         }
 
         public void SelectSlot(int choice)
@@ -115,7 +152,7 @@ namespace Main.UI.Equipment
 
         public bool AddToInventory(ItemData itemToAdd, int amountToAdd)
         {
-            for (var i = 0; i < slots.Count; i++)
+            for (var i = 0; i < slots.Length; i++)
             {
                 var slot = slots[i];
                 if (slot.ItemData == null) continue;
@@ -130,7 +167,7 @@ namespace Main.UI.Equipment
             var newData = new SlotData(itemToAdd, amountToAdd);
             //items.Add(newData);
 
-            for (int i = 0; i < slots.Count; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
                 var currentSlot = slots[i];
                 if (currentSlot.ItemData != null) continue;
@@ -156,10 +193,10 @@ namespace Main.UI.Equipment
         }
         public InventorySlot GetEmptySlotInEq(SlotData slotData, out bool fullComplete)
         {
-            fullComplete = AutoCompleteItems(slots, slotData, slots.Count, quickbarSlotsCount);
+            fullComplete = AutoCompleteItems(slots, slotData, slots.Length, quickbarSlotsCount);
             if (slotData.quantity == 0) return null;
 
-            for (int i = quickbarSlotsCount; i < slots.Count; i++)
+            for (int i = quickbarSlotsCount; i < slots.Length; i++)
             {
                 var current = slots[i];
                 if (current.ItemData == null) return current;
@@ -167,9 +204,9 @@ namespace Main.UI.Equipment
             return null;
         }
 
-        private bool AutoCompleteItems(List<InventorySlot> collection, SlotData oldSlotData, int size = -1, int index = 0)
+        private bool AutoCompleteItems(InventorySlot[] collection, SlotData oldSlotData, int size = -1, int index = 0)
         {
-            int count = size == -1 ? collection.Count : size;
+            int count = size == -1 ? collection.Length : size;
             for (int i = index; i < count; i++)
             {
                 var current = collection[i];
@@ -192,7 +229,7 @@ namespace Main.UI.Equipment
 
         public void OpenSidePanel<T>(Structure structure)
         {
-            craftingBackground.SetActive(false);
+            crafting.CloseWindow();
             for (int i = 0; i < _sideInventories.Count; i++)
             {
                 var current = _sideInventories[i];
@@ -215,7 +252,7 @@ namespace Main.UI.Equipment
 
         public void OpenInventory()
         {
-            craftingBackground.SetActive(true);
+            crafting.OpenWindow();
             OpenWindow();
         }
         public void OpenWindow()
@@ -237,7 +274,7 @@ namespace Main.UI.Equipment
         {
             isWindowOpened = false;
             background.SetActive(false);
-            craftingBackground.SetActive(false);
+            crafting.CloseWindow();
 
             if (_openedSideInventory != null)
             {

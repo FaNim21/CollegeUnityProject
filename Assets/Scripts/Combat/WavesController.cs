@@ -69,6 +69,8 @@ namespace Main.Combat
         private GameManager _gameManager;
         private MapManager _mapManager;
 
+        public GameObject endingScreen;
+
         [Header("Components")]
         [SerializeField] private TextMeshProUGUI _waveNumberText; 
         [SerializeField] private TextMeshProUGUI _enemiesLeftText; 
@@ -97,9 +99,10 @@ namespace Main.Combat
 
             _waves[_wave].Initialize(this);
         }
-
         private void Update()
         {
+            if (_wave >= _waves.Count) return;
+
             _waves[_wave].Update();
         }
 
@@ -143,6 +146,11 @@ namespace Main.Combat
         public void NextWave()
         {
             _wave++;
+            if (_wave >= _waves.Count)
+            {
+                endingScreen.SetActive(true);
+                return;
+            }
             _waves[_wave].Initialize(this);
         }
 

@@ -24,7 +24,7 @@ namespace Main.Player
         [Header("Values")]
         public int layerMask;
         public int projectileSpeed;
-        public int projectileLifetime;
+        public float projectileLifetime;
         public int damage;
 
         [Header("Debug")]

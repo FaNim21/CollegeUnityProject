@@ -1,3 +1,5 @@
+using Main.Player;
+using Main.UI;
 using TMPro;
 using UnityEngine;
 
@@ -5,6 +7,8 @@ namespace Main.Buildings
 {
     public class MainBase : Structure
     {
+        public CanvasHandle canvasHandle;
+        public InputHandler inputHandler;
         public GameObject lostScreen;
         public MapManager mapManager;
 
@@ -28,10 +32,9 @@ namespace Main.Buildings
 
         protected override void OnDeath()
         {
-            base.OnDeath();
-
             lostScreen.SetActive(true);
-            //TODO: 0 LOSE SCREEN
+            canvasHandle.isCanvasEnabled = true;
+            inputHandler.SetBlockForInput();
         }
 
         public override void OpenGUI() { }
