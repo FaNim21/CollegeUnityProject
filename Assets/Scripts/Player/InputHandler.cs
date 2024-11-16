@@ -155,7 +155,7 @@ namespace Main.Player
                     _obtainType = ObtainType.Ore;
                     _obtainingOre = ore;
                     _obtainingOrePosition = _mapManager.GetTilePosition(mousePosition);
-                    _obtainingTimeAmount = 2.5f;
+                    _obtainingTimeAmount = 2.25f;
 
                     StartObtaining();
                     Utils.Log($"Started obtaining structure: {_obtainingOre}");
