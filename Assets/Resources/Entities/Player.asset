@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   maxHealth: 140
-  damage: 14
+  damage: 4
   speed: 5
-  attackTime: 0.5
+  attackTime: 0.1

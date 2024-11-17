@@ -95,7 +95,7 @@ namespace Main.UI.Equipment
             dragAndDrop.Initialize();
         }
 
-        //its bad, but i need fast solutions
+        //its bad, but i needed fast solutions
         public int GetAmount(ItemData data)
         {
             int amount = 0;

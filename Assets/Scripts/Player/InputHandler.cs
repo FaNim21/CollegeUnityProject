@@ -113,7 +113,6 @@ namespace Main.Player
 
             if (_structureBuilder.IsPlacing() && _structureBuilder.IsInBuildMode())
             {
-                //TODO: 0 check for collisiion with other structures
                 _structureBuilder.Place();
                 return;
             }
@@ -201,6 +200,27 @@ namespace Main.Player
             if (callback.phase != InputActionPhase.Performed) return;
 
             _canvasHandle.ToggleWindow<PauseMenu>();
+        }
+
+        public void OnShoot(InputAction.CallbackContext callback)
+        {
+            if (_blockInput) return;
+
+            if (callback.phase == InputActionPhase.Started)
+            {
+                _player.StartShooting();
+            }
+            else if (callback.phase == InputActionPhase.Canceled)
+            {
+                _player.StopShooting();
+            }
+        }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            if (_blockInput) return;
+
+            _player.UpdateMoveDirection(context.ReadValue<Vector2>());
         }
 
         private Structure GetStructureOnMouse()

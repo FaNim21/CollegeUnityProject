@@ -6,7 +6,7 @@ namespace Main.Datas
     public class StructureData : ScriptableObject
     {
         public int maxHealth;
-        //okreslic typ, i zaleznie od typu parametry jak uzycie, materialy itp itd
+        //could done data type for all structures, but there is only two in game
 
     }
 }

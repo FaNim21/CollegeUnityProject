@@ -44,14 +44,22 @@ namespace Main.UI.Equipment
         //all here could be done at least x5 better but there is no need and time for that
         public void OnCraft()
         {
+            bool canCraft = true;
             for (int i = 0; i < _recipe.ingredients.Length; i++)
             {
                 var current = _containers[i];
                 if (!current.UpdateAmount())
                 {
                     Utils.LogWarning($"You cant craft: {_recipe.item.name}");
-                    return;
+                    canCraft = false;
+                    break;
                 }
+            }
+
+            if (!canCraft)
+            {
+                _crafting.UpdateIngredients();
+                return;
             }
 
             for (int i = 0; i < _recipe.ingredients.Length; i++)

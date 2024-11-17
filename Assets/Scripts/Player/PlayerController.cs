@@ -4,7 +4,6 @@ using Main.UI;
 using Main.UI.Equipment;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Main.Player
 {
@@ -25,12 +24,13 @@ namespace Main.Player
         public int layerMask;
         public int projectileSpeed;
         public float projectileLifetime;
-        public int damage;
 
         [Header("Debug")]
-        [SerializeField, ReadOnly] private Vector2 _inputDirection;
+        [SerializeField, ReadOnly] private bool _shooting;
+        [SerializeField, ReadOnly] private float _shootingTimer;
         [SerializeField, ReadOnly] private float _currentSpeed;
         [SerializeField, ReadOnly] private float _aimAngle;
+        [SerializeField, ReadOnly] private Vector2 _inputDirection;
         [SerializeField, ReadOnly] private Vector2 _mousePosition;
         [SerializeField, ReadOnly] private Vector2 _aimDirection;
 
@@ -38,7 +38,7 @@ namespace Main.Player
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = body.GetComponent<SpriteRenderer>();
         }
         private void Update()
         {
@@ -48,7 +48,14 @@ namespace Main.Player
             _aimDirection = (_mousePosition - (Vector2)shootingOffset.position).normalized;
             _aimAngle = Mathf.Atan2(_aimDirection.y, _aimDirection.x) * Mathf.Rad2Deg;
 
-            if (Keyboard.current.spaceKey.wasPressedThisFrame) Shoot();
+            if (!_shooting) return;
+
+            _shootingTimer += Time.deltaTime;
+            if (_shootingTimer >= data.attackTime)
+            {
+                _shootingTimer = 0f;
+                Shoot();
+            }
         }
         private void FixedUpdate()
         {
@@ -69,17 +76,29 @@ namespace Main.Player
             _rb.MovePosition(_rb.position + data.speed * Time.fixedDeltaTime * adjustedDirection);
         }
 
+        public void StartShooting()
+        {
+            _shooting = true;
+        }
+        public void StopShooting()
+        {
+            _shooting = false;
+        }
+
         private void Shoot()
         {
             if (canvasHandle.isCanvasEnabled || canvasHandle.isPointerOverGameObject || Died) return;
 
             var projectile = Instantiate(GameManager.instance.projectile, shootingOffset.position, Quaternion.Euler(0, 0, _aimAngle));
-            projectile.Setup(layerMask, Quaternion.Euler(0, 0, _aimAngle) * Vector2.right, projectileSpeed, damage, projectileLifetime);
+            projectile.Setup(layerMask, Quaternion.Euler(0, 0, _aimAngle) * Vector2.right, projectileSpeed, data.damage, projectileLifetime);
         }
 
-        public void OnMove(InputAction.CallbackContext context)
+        public void UpdateMoveDirection(Vector2 inputDirection)
         {
-            _inputDirection = context.ReadValue<Vector2>();
+            _inputDirection = inputDirection;
+
+            if (_inputDirection.x == 0) return;
+            _spriteRenderer.flipX = _inputDirection.x < 0;
         }
 
         public override IEnumerator OnDeath()

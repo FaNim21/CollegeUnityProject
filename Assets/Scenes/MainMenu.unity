@@ -797,7 +797,7 @@ MonoBehaviour:
     and crafting menu\r\n- <b>Left Click</b> \u2013 Interact with structures\r\n-
     <b>Right Click (Hold)</b> \u2013 Pick up structures\r\n- <b>Space</b> \u2013
     Shoot\r\n- <b>1-5</b> \u2013 Select hotbar slots\r\n- <b>Escape</b> \u2013 Open
-    pause menu"
+    pause menu\n- <b>Scroll</b> \u2013 Changes camera zoom"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

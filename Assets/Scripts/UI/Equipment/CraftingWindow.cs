@@ -32,7 +32,7 @@ namespace Main.UI.Equipment
         [Header("Values")]
         [SerializeField] private Recipe[] _recpiesData;
 
-        private List<RecipeContainer> _recipies = new();
+        private readonly List<RecipeContainer> _recipies = new();
 
 
         private void Awake()
@@ -49,6 +49,7 @@ namespace Main.UI.Equipment
             }
         }
 
+        //i know that ingredients are not updated in all situations, but there is no need for that when it updates when click craft button 
         public void UpdateIngredients()
         {
             for (int i = 0; i < _recipies.Count; i++)
@@ -67,7 +68,5 @@ namespace Main.UI.Equipment
         {
             gameObject.SetActive(false);
         }
-
-        //public void 
     }
 }
