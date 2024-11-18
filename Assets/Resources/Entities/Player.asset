@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eae0a77a4c1cd047a7af28e5f8b37b5, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  maxHealth: 140
-  damage: 4
+  maxHealth: 150
+  damage: 7
   speed: 5
-  attackTime: 0.1
+  attackTime: 0.15

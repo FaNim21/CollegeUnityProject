@@ -588,7 +588,7 @@ MonoBehaviour:
       quantity: 0
       slotIndex: 0
   _maxStock: 15
-  _mineTime: 4
+  _mineTime: 3.5
   _ore: 0
   _amount: 0
   _fuelValue: 0

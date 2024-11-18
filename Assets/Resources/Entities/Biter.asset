@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eae0a77a4c1cd047a7af28e5f8b37b5, type: 3}
   m_Name: Biter
   m_EditorClassIdentifier: 
-  maxHealth: 160
-  damage: 22
-  speed: 3
+  maxHealth: 180
+  damage: 21
+  speed: 2.5
   attackTime: 1.4

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47c404dcf97b524a9b8aec3191abc24, type: 3}
   m_Name: Turret
   m_EditorClassIdentifier: 
-  maxHealth: 150
+  maxHealth: 180

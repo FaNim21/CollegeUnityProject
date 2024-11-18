@@ -237,6 +237,7 @@ namespace Main.Player
         public void SetBlockForInput()
         {
             _blockInput = true;
+            _player.UpdateMoveDirection(Vector2.zero);
         }
 
         private void StartObtaining()
